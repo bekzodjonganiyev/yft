@@ -1,0 +1,109 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+}
+
+enum InquiryStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  titleUz     String
+  titleRu     String
+  titleEn     String
+  titleAr     String   @default("")
+  descUz      String
+  descRu      String
+  descEn      String
+  descAr      String   @default("")
+  category    String   // Premium, Grade 1, Grade 2, Bran, Grain
+  packaging   String   // e.g. "50 kg, 25 kg, 10 kg, 5 kg"
+  gluten      String?  // e.g. "28-30%"
+  ash         String?  // e.g. "0.55%"
+  moisture    String?  // e.g. "14.2%"
+  imageUrl    String
+  isFeatured  Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("products")
+}
+
+model Photo {
+  id        String   @id @default(uuid())
+  photoUrl  String
+  titleUz   String?
+  titleRu   String?
+  titleEn   String?
+  titleAr   String?
+  category  String   @default("production") // production, laboratory, factory, team
+  width     Int      @default(1080)
+  height    Int      @default(720)
+  date      DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("photos")
+}
+
+model Partner {
+  id         String   @id @default(uuid())
+  name       String
+  logoUrl    String
+  websiteUrl String?
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("partners")
+}
+
+model Inquiry {
+  id        String        @id @default(uuid())
+  fullName  String
+  phone     String
+  email     String?
+  subject   String?
+  message   String
+  fileUrl   String?
+  status    InquiryStatus @default(NEW)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@map("inquiries")
+}
+
+model Setting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt
+
+  @@map("settings")
+}
