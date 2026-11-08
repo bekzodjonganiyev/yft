@@ -6,4 +6,3 @@ dist
 uploads/*
 !uploads/.gitkeep
 *.log
-_legacy
