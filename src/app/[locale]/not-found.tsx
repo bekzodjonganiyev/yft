@@ -12,12 +12,17 @@ export default async function NotFound() {
   const locale = await getLocale();
   const t = await getDictionary(locale);
   return (
-    <div className="wrap py-24 md:py-32">
-      <h1 className="text-3xl">{t.notFound.title}</h1>
-      <p className="mt-4 max-w-[68ch] text-lg">{t.notFound.text}</p>
-      <Link href={`/${locale}`} className="btn btn-primary mt-8">
-        {t.notFound.home}
-      </Link>
+    <div className="flex min-h-[80svh] items-center bg-paper pt-[var(--nav-h)]">
+      <div className="wrap py-20">
+        <p className="font-display text-[clamp(5rem,3rem+10vw,11rem)] leading-none font-bold tracking-[-0.04em] text-navy/10" aria-hidden="true">
+          404
+        </p>
+        <h1 className="mt-4 text-h2">{t.notFound.title}</h1>
+        <p className="mt-4 max-w-[48ch] text-lead text-muted">{t.notFound.text}</p>
+        <Link href={`/${locale}`} className="btn mt-9">
+          {t.notFound.home}
+        </Link>
+      </div>
     </div>
   );
 }

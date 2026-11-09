@@ -15,22 +15,32 @@
     "language": "Til",
     "skip": "Asosiy qismga o‘tish",
     "home": "Yangiyer Flour Trading, bosh sahifa",
-    "main": "Asosiy menyu"
+    "main": "Asosiy menyu",
+    "top": "Sahifa boshiga",
+    "faq": "Savol-javob"
   },
   "hero": {
-    "title": "Birinchi navli bug‘doy uni, 50 kg qoplarda",
-    "lead": "Yangiyer shahridagi tegirmonimiz 1991-yildan beri ulgurji xaridorlar uchun un ishlab chiqaradi.",
+    "title": "Birinchi navli bug‘doy uni. 50 kg qoplarda, ulgurji.",
+    "lead": "Yangiyer shahridagi tegirmonimiz 1991-yildan beri novvoyxonalar va distribyutorlar uchun un ishlab chiqaradi.",
     "ctaQuote": "Narx so‘rash",
-    "ctaCall": "Qo‘ng‘iroq qilish"
+    "ctaCall": "Qo‘ng‘iroq qilish",
+    "scroll": "Pastga aylantiring"
   },
   "brands": {
-    "title": "Brendlarimiz",
-    "lead": "Barcha brendlar birinchi navli bug‘doy uni, 50 kg qoplarda.",
-    "grade": "Birinchi nav",
-    "pack": "50 kg qop",
-    "cta": "Narxini so‘rash",
-    "ctaLabel": "{{name}} narxini so‘rash",
-    "bagAlt": "{{name}} unining 50 kg qopi"
+    "title": "To‘rt brend, bitta nav",
+    "lead": "Har bir qopda birinchi navli bug‘doy uni, 50 kilogramm.",
+    "bagAlt": "{{name}} unining 50 kg qopi",
+    "pick": "Brendni tanlang",
+    "specGrade": "Nav",
+    "specWeight": "Og‘irligi",
+    "specWheat": "Bug‘doy",
+    "specUse": "Vazifasi",
+    "kazakhWheat": "Qozog‘iston bug‘doyi",
+    "bakery": "Nonvoylik uchun",
+    "ctaFor": "{{name}} narxini so‘rash",
+    "gradeValue": "Birinchi nav",
+    "weightValue": "50 kg",
+    "spec": "Texnik ma’lumot"
   },
   "about": {
     "title": "Korxona haqida",
@@ -50,7 +60,8 @@
       "standardValue": "GOST 26574-85",
       "trade": "Savdo turi",
       "tradeValue": "Ulgurji"
-    }
+    },
+    "watch": "Korxona haqida videoni ko‘rish"
   },
   "process": {
     "title": "Ishlab chiqarish",
@@ -58,19 +69,35 @@
     "steps": {
       "lab": {
         "title": "Laboratoriya",
-        "text": "Qabul qilingan bug‘doy laboratoriyada tahlil qilinadi."
+        "text": "Qabul qilingan bug‘doy laboratoriyada tahlil qilinadi.",
+        "facts": [
+          "Kleykovina ≥ 30 %",
+          "Namlik ≤ 15 %"
+        ]
       },
       "milling": {
         "title": "Tegirmon",
-        "text": "Don avtomatlashtirilgan liniyada maydalanadi va elanadi."
+        "text": "Don avtomatlashtirilgan liniyada maydalanadi va elanadi.",
+        "facts": [
+          "Avtomat liniya",
+          "1–3 nav"
+        ]
       },
       "packing": {
         "title": "Qadoqlash",
-        "text": "Un 50 kg li qoplarga solinib, tikiladi."
+        "text": "Un 50 kg li qoplarga solinib, tikiladi.",
+        "facts": [
+          "50 kg qop",
+          "Tikib yopiladi"
+        ]
       },
       "loading": {
         "title": "Yuklash",
-        "text": "Qoplar omborda taxlanadi va temir yo‘l vagonlariga yuklanadi."
+        "text": "Qoplar omborda taxlanadi va temir yo‘l vagonlariga yuklanadi.",
+        "facts": [
+          "Temir yo‘l vagoni",
+          "Omborda taxlanadi"
+        ]
       }
     }
   },
@@ -117,7 +144,7 @@
   },
   "contact": {
     "title": "Narx so‘rash",
-    "lead": "Brend va kerakli hajmni yozing, biz narx va yetkazib berish shartlarini aytamiz. Shoshilinch bo‘lsa, qo‘ng‘iroq qiling.",
+    "lead": "Brend va hajmni yozing. Narx va yetkazib berish shartlarini telefon orqali aytamiz.",
     "phones": "Telefon",
     "phone": {
       "uz": "O‘zbekiston",
@@ -135,7 +162,7 @@
       "phoneHint": "Masalan: +998 90 123 45 67",
       "brand": "Brend",
       "brandAny": "Hali tanlamadim",
-      "quantity": "Hajm, qop",
+      "quantity": "Qoplar soni",
       "message": "Izoh",
       "messageHint": "Yetkazish manzili, muddat yoki boshqa savol",
       "optional": "ixtiyoriy",
@@ -146,17 +173,99 @@
       "again": "Yana so‘rov yuborish",
       "nameRequired": "Ismingizni yozing.",
       "phoneInvalid": "Telefon raqamni to‘liq yozing, kamida 9 ta raqam.",
-      "failed": "So‘rov yuborilmadi. Internetni tekshirib, qayta urinib ko‘ring yoki {{phone}} raqamiga qo‘ng‘iroq qiling."
-    }
+      "failed": "So‘rov yuborilmadi. Internetni tekshirib, qayta urinib ko‘ring yoki {{phone}} raqamiga qo‘ng‘iroq qiling.",
+      "country": "Yetkazish davlati",
+      "countryAny": "Davlatni tanlang",
+      "countries": {
+        "uz": "O‘zbekiston",
+        "kz": "Qozog‘iston",
+        "ru": "Rossiya",
+        "other": "Boshqa davlat"
+      },
+      "decrease": "Kamaytirish",
+      "increase": "Ko‘paytirish",
+      "privacy": "Raqamingiz faqat shu so‘rov bo‘yicha qo‘ng‘iroq qilish uchun ishlatiladi.",
+      "errorsCount": "Formada {{count}} ta xato bor.",
+      "summary": {
+        "title": "So‘rov xulosasi",
+        "volume": "Hajm",
+        "transport": "Tashish",
+        "bags": "{{n}} qop",
+        "tonnes": "{{t}} t",
+        "trucks": "≈ {{n}} yuk mashinasi",
+        "wagons": "≈ {{n}} vagon",
+        "empty": "Qoplar sonini kiriting"
+      }
+    },
+    "direct": "To‘g‘ridan-to‘g‘ri aloqa"
   },
   "footer": {
     "company": "“Yangiyer Flour Trading” MChJ",
     "since": "1991-yildan beri",
-    "rights": "Barcha huquqlar himoyalangan."
+    "rights": "Barcha huquqlar himoyalangan.",
+    "sections": "Bo‘limlar",
+    "contacts": "Aloqa",
+    "address": "Manzil"
   },
   "notFound": {
     "title": "Sahifa topilmadi",
     "text": "Bu manzilda sahifa yo‘q. Bosh sahifadan davom eting.",
     "home": "Bosh sahifaga qaytish"
+  },
+  "statement": "1991-yildan beri bitta ish bilan shug‘ullanamiz: bug‘doyni [[birinchi navli unga]] aylantirib, 50 kg qoplarda xaridorga yetkazamiz.",
+  "chapters": {
+    "counter": "{{n}} / {{total}}"
+  },
+  "ui": {
+    "themeDark": "Tungi rejim",
+    "themeLight": "Kunduzgi rejim",
+    "copy": "Nusxalash",
+    "copied": "Nusxalandi",
+    "clock": "Yangiyer vaqti"
+  },
+  "figures": {
+    "title": "Raqamlarda",
+    "lead": "Korxona haqida qisqa faktlar",
+    "items": {
+      "founded": "Tashkil topgan yil",
+      "years": "Yillik tajriba",
+      "brands": "Brend",
+      "bag": "Kilogramm — bir qop",
+      "grades": "Un navlari",
+      "countries": "Davlat — yetkazish"
+    }
+  },
+  "faq": {
+    "title": "Ko‘p so‘raladigan savollar",
+    "lead": "Nav, qadoq va yetkazish haqida qisqa javoblar. Qolganini telefonda aytamiz.",
+    "items": [
+      {
+        "q": "Qaysi navdagi un ishlab chiqarasiz?",
+        "a": "Tegirmon birinchi navdan uchinchi navgacha bug‘doy uni ishlab chiqaradi. SO‘FRA, MASHRAB, AL HAYOT va SALAM brendlari — birinchi nav, GOST 26574-85 bo‘yicha."
+      },
+      {
+        "q": "Un qanday qadoqlanadi?",
+        "a": "Barcha brendlar 50 kilogrammli qoplarda. Qoplar liniyada to‘ldirilib, tikib yopiladi va omborda taxlanadi."
+      },
+      {
+        "q": "Qaysi davlatlarga yetkazib berasiz?",
+        "a": "O‘zbekiston va Qozog‘iston bo‘ylab ishlaymiz — Qozog‘istonda alohida telefon raqamimiz bor. Katta partiyalar temir yo‘l vagonlarida jo‘natiladi. Boshqa davlatlar uchun so‘rov qoldiring."
+      },
+      {
+        "q": "Narxni qanday bilsam bo‘ladi?",
+        "a": "Formada brend va qoplar sonini yozing yoki qo‘ng‘iroq qiling. Narx hajm va yetkazish shartlariga bog‘liq, shuning uchun uni telefonda aniq aytamiz."
+      },
+      {
+        "q": "Bug‘doy qayerdan keladi?",
+        "a": "MASHRAB va AL HAYOT brendlari Qozog‘iston bug‘doyidan tayyorlanadi. Har bir qabul qilingan partiya tegirmonga tushishidan oldin laboratoriyada tekshiriladi."
+      }
+    ],
+    "help": {
+      "title": "Tezroq javob kerakmi?",
+      "text": "Ish kunlari telefon yoki Telegram orqali yozing — raqamni nusxalab olishingiz mumkin.",
+      "call": "Qo‘ng‘iroq qilish",
+      "telegram": "Telegramda yozish",
+      "email": "Email yuborish"
+    }
   }
 }

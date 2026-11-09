@@ -1,8 +1,7 @@
 # Yangiyer Flour Trading: redesign rejasi
 
 Asos: `origin/update` (b07292f), yaʼni yangiyerflourtrading.uz’da hozir turgan kod. Stack: Next.js 16 (§7).
-Jarayon: `frontend-design` (reja → qayta ko'rib chiqish → kod), `vercel-react-best-practices`,
-`web-design-guidelines` + `accessibility` (audit), `impeccable` (yakuniy pardoz).
+Jarayon (v3): `impeccable`, `design-taste-frontend`, `emil-design-eng`; audit: `accessibility`, `web-design-guidelines`.
 
 ## 1. Brief
 
@@ -30,122 +29,97 @@ Jarayon: `frontend-design` (reja → qayta ko'rib chiqish → kod), `vercel-reac
 | Unumdorlik | flowbite, slick, react-awesome-reveal, recharts, axios kabi og'ir kutubxonalar. 4.7 MB JPG/PNG, Google Fonts `@import` orqali yuklanadi, GA ikki marta va placeholder ID bilan ulangan |
 | A11y | Focus holati ko'rinmaydi, tugmalar `div`/`li` bilan qilingan, `alt` matnlar ma'nosiz |
 
-## 3. Token tizimi
+## 3. Vizual tizim (v3: impeccable, design-taste-frontend, emil-design-eng)
 
-### Rang (5 ta)
+**G'oya.** Sayt sanoat yetkazib beruvchisiga xos ko'rinishga ega bo'lishi kerak. Sarlavhalar qoplar va vagonlardagi kabi keng
+geometrik harflarda, ranglar kechki smenaning navy fonida bug'doy oltini. Qoplarning o'zi mahsulot qahramoni sifatida
+katta ko'rsatiladi, ishlab chiqarish esa scroll bilan ochiladigan foto-hikoya bo'ladi. Rad etilgan shablonlar:
+krem fon va serif shrift ("hunarmand novvoy" uslubi), bir xil kartalar to'plami, hero'dagi raqamlar bloki.
 
-| Nom | Hex | Rol |
+### Rang: committed strategiya, brend ranglari saqlangan
+
+| Token | Hex | Rol |
 |---|---|---|
-| Silo Blue | `#0B3B55` | Asosiy brend rangi (hozirgi `#063F58`dan olingan, kechki osmon). Header matni, shelf foni, footer |
-| Wheat Gold | `#EEAD0F` | Brend urg'usi (logotip). Faqat bosh CTA va faol holatlar uchun |
-| Steel | `#E4E8EA` | Silos po'lati. Muqobil seksiya foni, chegaralar |
-| Ink | `#14283A` | Asosiy matn (ko'kimtir qora, Silo Blue bilan bir oiladan) |
-| Flour | `#FFFFFF` | Asosiy fon |
+| `navy` | `#063F58` | Brend navy'si. Brendlar bo'limi foni |
+| `navy-900` / `navy-950` | `#042A3B` / `#021B27` | Hero, narx so'rash, footer |
+| `gold` | `#EEAD0F` | Logotipning oltini. Faqat bosh tugma, faol holat va to'q fondagi havolalar uchun |
+| `gold-ink` | `#8A5F00` | Och fondagi oltin matn (statement'dagi ajratilgan ibora, 5.6:1) |
+| `paper` / `flour` | `#FFFFFF` / `#F4F6F7` | Och seksiyalar navbatma-navbat |
+| `ink` / `muted` | `#0B1E28` / `#52646E` | Matn (oq fonda 6.2:1) |
+| `line` / `line-strong` | `#D9DFE2` / `#74838D` | Chiziqlar / boshqaruv elementlari chegarasi (3.9:1) |
 
-Qoplarning qizil va sariq ranglari palitraga kiritilmaydi, ular fotolarning o'zidan keladi.
-Sayt foni sokin bo'lgani uchun qoplar aynan shu fonda ajralib turadi.
-Kontrast (tekshirilgan): Ink/Flour 15.1:1, Silo Blue/Flour 11.9:1, Ink/Steel 12.2:1.
-Wheat Gold ustidagi matn faqat Ink rangida (7.6:1). Silo Blue ustida Gold matn 6.0:1, ya'ni AA darajasidan o'tadi.
+Seksiyalar foni ketma-ketligi: qoramtir (hero) → oq (statement) → navy (brendlar) → och kulrang (ishlab chiqarish) →
+oq (korxona) → och kulrang (fotolar) → qoramtir (narx so'rash) → navy-900 (footer).
 
 ### Tipografiya
 
-- **IBM Plex Sans** (lotin + kirill) va **IBM Plex Sans Arabic** (arab tili). Ikkalasi bitta dizayn tizimidan,
-  shuning uchun 4 til bir xil ovozda ko'rinadi. Plex muhandislik va sanoat ruhida chizilgan shrift, tegirmon mavzusiga mos.
-  Hozirgi saytda ham ishlatiladi, ya'ni brend uzluksizligi saqlanadi. Shriftlar `@fontsource` orqali o'zimizda
-  joylashtiriladi (Google `@import` olib tashlanadi).
-- O'lcham shkalasi (1.25): 14 / 16 / 20 / 25 / 31 / 39 / 61 px. Body 17px, line-height 1.6, satr uzunligi ≤ 68ch.
-- Sarlavhalar: 600 weight, tracking −0.015em, sentence case. **ALL-CAPS ishlatilmaydi**
-  (tugmalar va "XABAR YUBORISH" ham kichik harfga o'tadi).
-- Raqamlar (1991, 50 kg, GOST 26574-85, telefonlar) `tabular-nums` bilan beriladi.
+- **IBM Plex Sans** (600/700): sarlavhalar. Butun sayt bitta oilada — sarlavha va matn og‘irlik bilan farqlanadi, shrift bilan emas.
+- **IBM Plex Sans** (400/500): asosiy matn. **IBM Plex Sans Arabic**: arabcha harflar — o‘sha oilaning arab versiyasi, og‘irliklari mos.
+- Shkala: display `clamp(2.25rem … 4.375rem)`, h2 `clamp(2rem … 3.5rem)`, statement `clamp(1.75rem … 4rem)`, lead 18–22px, body 17px.
+- Sarlavha ikki gapdan iborat bo'lsa, ikkinchisi ochroq tonda beriladi. Bitta so'zni boshqa rangga bo'yash va ALL-CAPS ishlatilmaydi.
+- IBM Plex olib tashlandi, chunki impeccable uni "o'ylamasdan tanlangan default" deb hisoblaydi.
 
 ### Shakl
 
-- Radius ierarxiyasi: tugma va input 6px, foto 2px (fotoga yumaloq burchak berilmaydi), qop rasmlari radiussiz.
-- Soya yo'q. Ajratish fon rangi (Flour/Steel/Silo Blue) va bo'shliq orqali qilinadi.
+Boshqaruv elementlari 10px, kartalar va forma 16px, fotolar 14px radiusda. Soya faqat popover va qopda ishlatiladi
+(qopniki uning ostidagi "yer"ni bildiradi).
 
-## 4. Layout
+## 4. Sahifa tuzilishi
 
-Hamma narsa chapga tekislanadi (RTL'da o'ngga). Markazlashtirilgan matn faqat qop nomlarida bo'ladi.
-Kontent kengligi 1200px, matn ustuni 68ch.
+| # | Seksiya | Nima ko'rsatadi | Harakat |
+|---|---|---|---|
+| 1 | Hero | Kechki tegirmon fotosi, sarlavha, 2 ta tugma. Header foto ustida shaffof, scroll'da muzlatilgan "glass" panelga aylanadi | Sahifa ochilganda bir marta: so'zlar niqobdan ko'tariladi, matn va tugmalar ketma-ket chiqadi, foto 1.06 dan joyiga o'rnashadi. Orqada 3 ta xira rang dog'i sekin suzadi va sichqoncha tomon engil og'adi (faqat mouse) |
+| 2 | Statement | Sahifa tayanadigan bitta gap | **Scroll moment 1 (word-highlight):** so'zlar scroll bilan kulrangdan qora rangga o'tadi, ajratilgan ibora oltin rangga |
+| 3 | Brendlar | 4 ta qop, qop burchagida spec-karta (nav, bug'doy, vazifa, 50 kg, GOST), CTA | Tanlagichda qop blur bilan crossfade qilib almashadi; sahna (qop + karta) sichqoncha tomon 6° gacha og'adi, karta qopdan balandroq qatlamda (translateZ) |
+| 4 | Ishlab chiqarish | 4 bob: laboratoriya, tegirmon, qadoqlash, yuklash; har bobda 2 ta ko'rsatkich chipi (GOST chegaralari, qop, vagon) | **Scroll moment 2 (photo-chapters):** seksiya pin qilinadi, har bir keyingi foto pastdan ochiladi (`clip-path`) va 1.08 dan joyiga o'rnashadi; panel bob raqami, sarlavha va progress chizig'ini ko'rsatadi |
+| 5 | Raqamlarda | To'q "tablo": 6 ta raqam (1991, 30+, 4 brend, 50 kg, 1–3 nav, 2 davlat) va Yangiyer vaqti (jonli soat) | Tablo ekranga kirganda raqamlar vokzal taxtasidek bittalab ag'darilib chiqadi (`flap`), serverda raqamlar oddiy ko'rinadi |
+| 6 | Korxona | Korxona videosi (poster: xodimlar fotosi, bosilganda YouTube pleyer yuklanadi), matn, 6 ta fakt | Play tugmasi hover'da 1.05, bosilganda .95 |
+| 7 | Fotolar | 8 ta fotodan mozaika (4×3 / 2×6), lightbox | Hover'da foto 1.03 ga zoom bo'ladi |
+| 8 | Savol-javob | 5 ta savol (`<details name>`, bittasi ochiq), yonida yopishqoq "tez aloqa" kartasi: qo'ng'iroq, Telegram, email, har birida nusxalash tugmasi | Javob `::details-content` orqali siljib ochiladi, "+" 45° buriladi; nusxalashda pastda toast chiqadi |
+| 9 | Narx so'rash | Kontaktlar katta shriftda va forma; forma ostida so'rov xulosasi: brend, hajm (qop → tonna), tashish (20 t mashina / 68 t vagon) | Select popover, stepper, xatolar maydon ostida, xulosa qiymatlari yozilganda yangilanadi, natijaga o'tishda blur bilan almashinuv |
+| 10 | Footer | Katta wordmark, 4 ustun, huquqiy qator | Havolalar tagiga chiziq chiziladi |
 
-```
-┌───────────────────────────────────────────────────────────────┐
-│ [logo] Yangiyer Flour Trading   Mahsulot  Tegirmon  Aloqa  Uz▾ [+998 90 979 50 55] │  ← sticky, oq fon
-├───────────────────────────────────────────────────────────────┤
-│                                              ▐█▌  ▐████████▌ │
-│  Birinchi navli bug'doy uni.                 ▐█▌  ▐ tegirmon ▌ │  ← HERO: photo_24 (kechki tegirmon)
-│  50 kg qoplarda, ulgurji.                    ▐█▌  ▐  binosi  ▌ │     to'liq kenglikda. Osmon chap tomonda,
-│  Yangiyer, 1991-yildan.                                        │     matn ham chapda (fotoning bo'sh qismida)
-│  [ Narx so'rash ]  [ Qo'ng'iroq qilish ]                       │
-├───────────────────────────────────────────────────────────────┤
-│ ███████████████████ SILO BLUE ██████████████████████████████ │
-│  Bizning brendlar                                             │  ← SHELF: yagona "jasur" element
-│   ┌────┐  ┌────┐  ┌────┐  ┌────┐                               │     4 qop "javonda" yonma-yon, katta.
-│   │SO' │  │MASH│  │ AL │  │SALA│                               │     Har birining ostida: nomi, nav, 50 kg.
-│   │FRA │  │RAB │  │HAYT│  │ M  │                               │     Bosilganda forma shu brend bilan ochiladi
-│   └────┘  └────┘  └────┘  └────┘                               │
-│  SO'FRA     MASHRAB    AL HAYOT    SALAM                       │
-│  Birinchi nav, 50 kg (har biri)                                │
-├───────────────────────────────────────────────────────────────┤
-│  Korxona haqida (2/3 matn)      │  Spec varaq (dl):            │  ← ABOUT: proza + ma'lumot jadvali
-│  1991-yildan oilaviy korxona…   │  Tashkil topgan   1991       │     (kalit-qiymat ko'rinishidagi haqiqiy kontent)
-│                                 │  Joylashuv  Yangiyer, Sirdaryo│
-│                                 │  Mahsulot   Bug'doy uni, 1-nav│
-│                                 │  Qadoq      50 kg qop         │
-│                                 │  Standart   GOST 26574-85     │
-├───────────────────────────────────────────────────────────────┤
-│  Ishlab chiqarish (STEEL fon)                                  │  ← PROCESS: haqiqiy ketma-ketlik,
-│  1 Bug'doy qabul   2 Laboratoriya   3 Tegirmon   4 Qadoqlash   │     shuning uchun raqamlash o'rinli.
-│  [foto]            [foto]           [foto]       [foto]        │     Fotolar galereyadan olinadi
-├───────────────────────────────────────────────────────────────┤
-│  Tegirmondan fotolar  (8 ta, bir tekis bo'lmagan grid) Barchasi│  ← GALLERY: /photos'ga o'tadi, lightbox
-├───────────────────────────────────────────────────────────────┤
-│  Aloqa                                                         │  ← CONTACT
-│  Telefon (UZ/KZ), email,        │  Forma: Ism, Telefon,        │
-│  manzil, ish vaqti, xarita      │  Brend ▾, Hajm (qop), Xabar  │
-│                                 │  [ So'rov yuborish ]         │
-├───────────────────────────────────────────────────────────────┤
-│ Footer: logo, manzil, telefonlar, til, © 2026                  │  ← Silo Blue
-└───────────────────────────────────────────────────────────────┘
-```
+**Dok va tema.** Pastki o'ng burchakda ikki dumaloq tugma: "sahifa boshiga" (hero o'tib ketgach chiqadi) va tungi/kunduzgi rejim. Tema `<html data-theme>` da, `localStorage`da eslab qolinadi, birinchi marta OS sozlamasidan olinadi va `<head>`dagi inline skript bilan birinchi chizishdan oldin qo'yiladi. Tungi rejimda `paper`/`flour` ikki chuqurlikdagi navy, `ink` oqish, brend navy seksiyalari o'zgarmaydi; och fondagi navy matn och ko'k tusga o'tadi. Almashinuv View Transitions bo'lgan brauzerda tugmadan o'sib chiquvchi doira bilan ochiladi.
 
-Mobil: hero fotosi `object-position: 70%` (bino ko'rinib turadi), matn pastda. Shelf gorizontal scroll-snap'ga o'tadi
-(2.2 ta qop ko'rinadi, keyingisi chetdan chiqib turadi). Process vertikal ro'yxat bo'ladi.
+**Motion qoidalari (taste + Emil):**
+- scroll faqat ikki moment ichida ishlaydi, boshqa hech bir karta yoki seksiya scroll'da "paydo bo'lmaydi";
+- scroll ushlanmaydi va boshqarilmaydi, faqat `position: sticky` va passiv `rAF` ishlatiladi;
+- ease-out egri chizig'i `cubic-bezier(.23,1,.32,1)`, UI animatsiyalari 300ms dan qisqa;
+- tugma bosilganda `scale(.97)` + 1px pastga tushadi; hover effektlari faqat `(hover:hover) and (pointer:fine)` qurilmalarida;
+- `prefers-reduced-motion` yoqilganda hech narsa harakatlanmaydi: statement darhol to'liq qora rangda, boblar yonma-yon turadi.
+- Server HTML har doim yakuniy, o'qiladigan holatda chiqadi; momentlar faqat hydration'dan keyin yoqiladi.
+- Photo-chapters faqat ekran balandligi 600px dan katta bo'lganda ishlaydi.
 
-## 5. Tamoyillar
+**Komponentlar:**
+- `Select`: WAI-ARIA select-only combobox. ↑/↓, Home/End, type-ahead, Enter/Space, Esc va Tab ishlaydi, tashqariga bosilganda yopiladi. Popover tugma joylashgan tomondan `scale(.97)` dan 160ms'da ochiladi, joy bo'lmasa yuqoriga ochiladi. Shakl formasiga yashirin input orqali qiymat beradi. Header'dagi til tanlash ham shu komponentda.
+- `QuantityField`: raqam kiritiladi yoki 10 talab −/+ qilinadi (0–100 000).
+- Forma: label'lar ko'rinadi, xatolar faqat yuborishda tekshiriladi va maydon ostida chiqadi. Birinchi xato maydoniga focus o'tadi, holat qatorida xatolar soni yoziladi. Muvaffaqiyat faqat server javobidan keyin ko'rsatiladi.
+- Brend tanlash URL orqali: `?brand=salam#contact`.
+- `Figures`: `IntersectionObserver` (35%) bir marta ishga tushadi; soat `Intl.DateTimeFormat` bilan `Asia/Tashkent` vaqtini ko'rsatadi, faqat hydration'dan keyin.
+- `Faq`: native `<details name="faq">` — bir vaqtda bittasi ochiq, JS kerak emas; `interpolate-size: allow-keywords` qo'llab-quvvatlanmagan brauzerda darhol ochiladi.
+- `Toaster`: `window` hodisasi orqali (`toast()`), `role="status"`, 2.6 s.
+- `Dock`: tema holati `useSyncExternalStore` bilan `<html data-theme>` dan o'qiladi; serverda tugma yashirin (tanlov noma'lum).
+- Lenis ishlatilmadi: ikki scroll moment native scroll'ga tayanadi, smooth-scroll kutubxonasi ularni buzadi va 10 KB qo'shadi.
 
-1. **Haqiqiy narsa birinchi o'rinda.** Tegirmon binosi va qoplarning o'zi ko'rinadi. Dekorativ gradient,
-   ikonka to'plami va abstrakt fon ishlatilmaydi.
-2. **Jasorat faqat bitta joyda: brend javoni.** Qolgan hamma narsa sokin va tartibli.
-3. **Bitta harakat lahzasi.** Qoplar ko'rinish maydoniga birinchi kirganda javonga ketma-ket "o'rnashadi"
-   (bir marta, 600ms). `prefers-reduced-motion` yoqilgan bo'lsa, bu animatsiya o'chadi. Kartalarda hover-zoom yo'q.
-4. **Ulgurji xaridor tilida.** "Narx so'rash", "Qo'ng'iroq qilish", "So'rov yuborish", "So'rov yuborildi".
-   Sotuvchi bo'rttirma gaplar ("second to none") ishlatilmaydi.
-5. **To'qilgan kontent yo'q.** Faqat tasdiqlangan faktlar ishlatiladi. Yangiliklar, vakansiyalar, FAQ va hamkorlar
-   haqiqiy kontent kelguncha bosh sahifadan olinadi.
+## 5. Tekshiruv
 
-## 6. Brief bilan solishtirish (ko'rib chiqish)
+- **Accessibility:** axe (WCAG 2.2 AA + best-practice) `/uz`, `/ar`, `/ru/photos` sahifalarida production build'da 0 ta buzilish.
+- **Kontrast:** hisoblab tekshirilgan. Statement'dagi yoritilmagan so'zlar 3.4:1, ya'ni katta matn uchun AA.
+- **Brauzerda sinalgan:**
+  - 1440 va 375 kenglikda, RTL ham;
+  - Select klaviatura bilan;
+  - stepper;
+  - formaning xato va muvaffaqiyat holatlari (dry-run).
+- **Hajm (`/uz`, gzip):** HTML 21 KB, CSS 11 KB, JS 191 KB.
 
-Xuddi shunday "un tegirmoni landing'i" so'ralganda men odatda nima qilardim, shuni tekshirdim:
-
-- *Default:* hero'da "30+ yil / 1991 / 4 brend" kabi katta raqamli stat-blok.
-  **Almashtirildi:** faktlar About'dagi spec varaqqa ko'chirildi. Hero'da sarlavha, foto va CTA qoladi.
-- *Default:* krem fon, serif sarlavha, "hunarmand novvoy" kayfiyati. Bu non do'koni uchun to'g'ri, lekin sanoat tegirmoniga mos emas.
-  **Rad etildi:** oq fon, po'lat-ko'k palitra va Plex Sans tanlandi.
-- *Default:* mahsulotlar uchun bir xil yumaloq kartalar va soya (SaaS-card kit).
-  **Almashtirildi:** kartalar o'rniga qoplar to'q fonda "javonda" turadi.
-- *Default:* har bir seksiya tepasida tracked ALL-CAPS eyebrow va "01/02/03" raqamlash.
-  **Almashtirildi:** eyebrow yo'q. Raqamlash faqat Process'da qoldi, chunki u haqiqiy ketma-ketlik.
-- *Default:* tugmalarga "→" qo'shish va kartalarda hover-scale. **Olib tashlandi.**
-
-## 7. Texnik stack (Next.js 16)
+## 6. Texnik stack (Next.js 16)
 
 | Qatlam | Tanlov |
 |---|---|
 | Framework | **Next.js 16.4** (App Router, Turbopack), **React 19.3** |
 | Til | **TypeScript 6.0** (strict) |
 | Stil | **Tailwind CSS 4.3**: tokenlar `src/app/globals.css` ichidagi `@theme` blokida, JS konfiguratsiyasi yoʻq |
-| Shrift | `next/font/google`: IBM Plex Sans (lotin, kirill) + IBM Plex Sans Arabic, self-host qilinadi |
+| Shrift | `next/font/google`: IBM Plex Sans + IBM Plex Sans Arabic, self-host qilinadi |
 | Rasm | `next/image` (AVIF → WebP, blur placeholder); hero `loading="eager"` + `fetchPriority="high"` |
 | Lint | ESLint 9 flat config (`eslint-config-next/core-web-vitals` + `typescript`). Next 16'da `next lint` yoʻq |
 
@@ -174,18 +148,14 @@ Xuddi shunday "un tegirmoni landing'i" so'ralganda men odatda nima qilardim, shu
 - Spamdan himoya: honeypot, 2.5 soniyalik minimal toʻldirish vaqti va IP boʻyicha cheklov (10 daqiqada 5 ta).
 - Natija va xato sahifaning oʻzida koʻrsatiladi (`alert` yoʻq), xato xabarida zaxira telefon raqami beriladi.
 
-## 8. Amalga oshirish eslatmalari
+## 7. Amalga oshirish eslatmalari
 
 - **Oʻzbekcha apostrof:** IBM Plex'da `ʻ` (U+02BB) belgisi yoʻq, brauzer uni boshqa shriftdan oladi va "bug ʻ doy" kabi boʻshliq paydo boʻladi.
   Shuning uchun matnlarda `‘` (U+2018) va `’` (U+2019) ishlatiladi.
-- **Input chegarasi:** `steel-400` (#B9C2C7) oq fonda faqat 1.8:1 beradi. Shuning uchun boshqaruv elementlarida
-  `steel-600` (#74838D) ishlatiladi: Flour fonda 3.9:1, Steel fonda 3.2:1 (WCAG 1.4.11).
 - **OG rasmi:** `app/opengraph-image.jpg`. `[locale]/layout` oʻzining `openGraph` obyektini beradi va u meros
   kelgan rasmni ustidan yozib yuboradi, shuning uchun rasm u yerda ham aniq koʻrsatilgan.
-- **Tekshiruv (production build):** axe-core (WCAG 2.2 AA + best-practice) `/uz`, `/ar` va `/en/photos` sahifalarida 0 ta buzilish koʻrsatdi.
-  `/uz` hajmi: HTML 18 KB, CSS 8 KB, JS 185 KB (gzip, asosan Next + React runtime), hero AVIF 19 KB.
 
-## 9. Ishga tushirish va deploy
+## 8. Ishga tushirish va deploy
 
 ```bash
 npm install

@@ -5,6 +5,7 @@
 import { brands } from "@/lib/site";
 
 const BRAND_NAMES: Record<string, string> = Object.fromEntries(brands.map((b) => [b.id, b.name]));
+const COUNTRY_NAMES: Record<string, string> = { uz: "O‘zbekiston", kz: "Qozog‘iston", ru: "Rossiya", other: "Boshqa davlat" };
 const MIN_FILL_MS = 2500; // humans need a moment to fill the form; instant posts are bots
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
@@ -34,7 +35,8 @@ export async function POST(request: Request) {
   const name = clean(body.name, 120);
   const phone = clean(body.phone, 30);
   const brand = BRAND_NAMES[String(body.brand)] ?? "";
-  const quantity = clean(body.quantity, 20);
+  const country = COUNTRY_NAMES[String(body.country)] ?? "";
+  const quantity = clean(body.quantity, 20).replace(/\D/g, "");
   const message = String(body.message ?? "").trim().slice(0, 2000);
 
   // Silent success for bots, so they get no signal to retry.
@@ -52,6 +54,7 @@ export async function POST(request: Request) {
     `<b>Telefon:</b> ${escapeHtml(phone)}`,
     brand && `<b>Brend:</b> ${escapeHtml(brand)}`,
     quantity && `<b>Hajm:</b> ${escapeHtml(quantity)} qop`,
+    country && `<b>Yetkazish:</b> ${escapeHtml(country)}`,
     message && `<b>Izoh:</b> ${escapeHtml(message)}`,
   ]
     .filter(Boolean)

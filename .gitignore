@@ -8,3 +8,7 @@ out
 next-env.d.ts
 *.log
 .DS_Store
+
+# design-taste-frontend ships ~37 MB of stock assets; restore with `npx skills experimental_install`
+.claude/skills/design-taste-frontend/assets/
+.taste-skill/

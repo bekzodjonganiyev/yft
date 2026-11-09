@@ -11,45 +11,42 @@ const PhotoLightbox = lazy(() => import("./PhotoLightbox"));
 export type GridPhoto = { n: number; image: StaticImageData; alt: string };
 type Labels = { open: string; prev: string; next: string; close: string };
 
-/**
- * variant="preview": a mosaic where the first photo takes a 2×2 cell (home page).
- * variant="all": an even grid of every photo (/photos).
- */
-export function PhotoGrid({ photos, labels, variant = "all" }: { photos: GridPhoto[]; labels: Labels; variant?: "preview" | "all" }) {
+// Mosaic: 4 columns × 3 rows (2 × 6 on phones). The first photo takes 2×2 and the sixth 2×1,
+// so eight photographs fill the grid exactly at both widths.
+const MOSAIC_SPAN: Record<number, string> = { 0: "col-span-2 row-span-2", 5: "col-span-2" };
+
+export function PhotoGrid({ photos, labels, layout = "grid" }: { photos: GridPhoto[]; labels: Labels; layout?: "mosaic" | "grid" }) {
   const [index, setIndex] = useState(-1);
-  const preview = variant === "preview";
+  const mosaic = layout === "mosaic";
 
   return (
     <>
       <ul
         className={
-          preview
-            ? "grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3"
+          mosaic
+            ? "grid grid-flow-dense grid-cols-2 auto-rows-[clamp(8.5rem,24vw,11rem)] gap-2 md:grid-cols-4 md:auto-rows-[clamp(10rem,15vw,15rem)] md:gap-3"
             : "grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4"
         }
       >
-        {photos.map((p, i) => {
-          const big = preview && i === 0;
-          return (
-            <li key={p.n} className={big ? "col-span-2 row-span-2" : undefined}>
-              <button
-                type="button"
-                onClick={() => setIndex(i)}
-                aria-label={format(labels.open, { alt: p.alt })}
-                className="relative block aspect-[4/3] h-full w-full overflow-hidden rounded-photo bg-steel"
-              >
-                <Image
-                  src={p.image}
-                  alt={p.alt}
-                  fill
-                  sizes={big ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"}
-                  placeholder="blur"
-                  className="object-cover transition-opacity hover:opacity-90"
-                />
-              </button>
-            </li>
-          );
-        })}
+        {photos.map((p, i) => (
+          <li key={p.n} className={mosaic ? MOSAIC_SPAN[i] : undefined}>
+            <button
+              type="button"
+              onClick={() => setIndex(i)}
+              aria-label={format(labels.open, { alt: p.alt })}
+              className={`zoom relative block w-full overflow-hidden rounded-photo bg-navy-950 ${mosaic ? "h-full" : "aspect-[4/3]"}`}
+            >
+              <Image
+                src={p.image}
+                alt={p.alt}
+                fill
+                sizes={mosaic && i === 0 ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"}
+                placeholder="blur"
+                className="object-cover"
+              />
+            </button>
+          </li>
+        ))}
       </ul>
 
       {index >= 0 && (

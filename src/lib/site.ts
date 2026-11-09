@@ -36,12 +36,14 @@ export const SITE_URL = "https://www.yangiyerflourtrading.uz";
 
 export const heroImage = hero;
 
-// Brand bags in shelf order. `id` is also the value the inquiry form sends.
+// Brand bags. `id` is also the value the inquiry form sends.
+// Only what is printed on each bag: every one is first grade, 50 kg; MASHRAB and AL HAYOT state
+// Kazakh wheat; SO‘FRA states bread-baking flour.
 export const brands = [
-  { id: "sofra", name: "SO‘FRA", image: sofra },
-  { id: "mashrab", name: "MASHRAB", image: mashrab },
-  { id: "al-hayot", name: "AL HAYOT", image: alHayot },
-  { id: "salam", name: "SALAM", image: salam },
+  { id: "sofra", name: "SO‘FRA", image: sofra, kazakhWheat: false, bakery: true },
+  { id: "mashrab", name: "MASHRAB", image: mashrab, kazakhWheat: true, bakery: false },
+  { id: "al-hayot", name: "AL HAYOT", image: alHayot, kazakhWheat: true, bakery: false },
+  { id: "salam", name: "SALAM", image: salam, kazakhWheat: false, bakery: false },
 ] as const;
 export type BrandId = (typeof brands)[number]["id"];
 
@@ -62,8 +64,29 @@ export const processSteps = [
   { key: "loading", photo: 26 },
 ] as const;
 
-// Home page preview: 1 large (2×2) + 8 small fills the 4- and 2-column grids without gaps.
-export const galleryPreview = [1, 12, 15, 9, 3, 19, 14, 25, 23];
+// The figures board. Every value is already stated elsewhere on the site (company facts, bag
+// print, phone numbers); `unit` is set after the number in a smaller size.
+export const figures = [
+  { key: "founded", value: "1991" },
+  { key: "years", value: "30+" },
+  { key: "brands", value: String(brands.length) },
+  { key: "bag", value: "50", unit: "kg" },
+  { key: "grades", value: "1–3" },
+  { key: "countries", value: "2" },
+] as const;
+
+/** Where the mill is: the live clock on the figures board runs in this zone. */
+export const timeZone = "Asia/Tashkent";
+
+// Home page gallery: none of these appear elsewhere on the page.
+export const galleryPreview = [12, 9, 15, 3, 25, 14, 23, 5];
+export const companyPhoto = 1;
+
+// The company film from the previous site, played on demand in the About section.
+export const aboutVideo = {
+  embedUrl: "https://www.youtube-nocookie.com/embed/G0zm9TybxpU",
+  title: "Yangiyer Flour Trading",
+} as const;
 
 // Contact details as printed on the live site and on the brand bags.
 export const contacts = {
@@ -72,6 +95,7 @@ export const contacts = {
     { key: "kz", display: "+7 702 155 15 55", href: "tel:+77021551555" },
   ],
   email: "mirza.kohkan@gmail.com",
+  telegram: "https://t.me/+998909795055",
   mapEmbed:
     "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1181.1895909939317!2d69.21878063797728!3d41.2875452257138!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8be0fdfbfecd%3A0x6c5afd84eb8438a6!2sLLC%20%22YANGIYER%20FLOUR%20TRADING%22!5e0!3m2!1suz!2s!4v1684500868007!5m2!1suz!2s",
   mapLink: "https://www.google.com/maps/search/?api=1&query=LLC+YANGIYER+FLOUR+TRADING",

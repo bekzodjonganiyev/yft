@@ -25,14 +25,16 @@ export default async function PhotosPage({ params }: PageProps<"/[locale]/photos
   const t = await getDictionary(locale);
 
   return (
-    <div className="wrap py-14 md:py-20">
-      <Link href={`/${locale}`} className="link text-silo">
-        {t.photos.back}
-      </Link>
-      <h1 className="mt-6 text-3xl">{t.photos.title}</h1>
-      <p className="mt-3 max-w-[68ch] text-lg">{format(t.photos.lead, { count: allPhotoNumbers.length })}</p>
-      <div className="mt-10">
-        <PhotoGrid photos={gridPhotos(allPhotoNumbers, t)} labels={lightboxLabels(t)} />
+    <div className="bg-paper pt-[calc(var(--nav-h)+clamp(2.5rem,1.5rem+3vw,4.5rem))] pb-[var(--section-y)]">
+      <div className="wrap">
+        <Link href={`/${locale}`} className="ulink text-sm font-medium text-muted hover:text-ink" data-rest>
+          {t.photos.back}
+        </Link>
+        <h1 className="mt-6 text-h2">{t.photos.title}</h1>
+        <p className="mt-4 max-w-[56ch] text-lead text-muted">{format(t.photos.lead, { count: allPhotoNumbers.length })}</p>
+        <div className="mt-12">
+          <PhotoGrid photos={gridPhotos(allPhotoNumbers, t)} labels={lightboxLabels(t)} />
+        </div>
       </div>
     </div>
   );

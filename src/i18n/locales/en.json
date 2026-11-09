@@ -15,22 +15,32 @@
     "language": "Language",
     "skip": "Skip to content",
     "home": "Yangiyer Flour Trading, home",
-    "main": "Main menu"
+    "main": "Main menu",
+    "top": "Back to top",
+    "faq": "FAQ"
   },
   "hero": {
-    "title": "First-grade wheat flour in 50 kg bags",
-    "lead": "Our mill in Yangiyer has been producing flour for wholesale buyers since 1991.",
+    "title": "First-grade wheat flour. In 50 kg bags, wholesale.",
+    "lead": "Our mill in Yangiyer has been making flour for bakeries and distributors since 1991.",
     "ctaQuote": "Request a price",
-    "ctaCall": "Call us"
+    "ctaCall": "Call us",
+    "scroll": "Scroll down"
   },
   "brands": {
-    "title": "Our brands",
-    "lead": "Every brand is first-grade wheat flour in 50 kg bags.",
-    "grade": "First grade",
-    "pack": "50 kg bag",
-    "cta": "Request a price",
-    "ctaLabel": "Request a price for {{name}}",
-    "bagAlt": "50 kg bag of {{name}} flour"
+    "title": "Four brands, one grade",
+    "lead": "Every bag holds 50 kilograms of first-grade wheat flour.",
+    "bagAlt": "50 kg bag of {{name}} flour",
+    "pick": "Choose a brand",
+    "specGrade": "Grade",
+    "specWeight": "Weight",
+    "specWheat": "Wheat",
+    "specUse": "Use",
+    "kazakhWheat": "Kazakh wheat",
+    "bakery": "Bread baking",
+    "ctaFor": "Request a price for {{name}}",
+    "gradeValue": "First grade",
+    "weightValue": "50 kg",
+    "spec": "Specification"
   },
   "about": {
     "title": "About the company",
@@ -50,7 +60,8 @@
       "standardValue": "GOST 26574-85",
       "trade": "Sales",
       "tradeValue": "Wholesale"
-    }
+    },
+    "watch": "Watch the company video"
   },
   "process": {
     "title": "Production",
@@ -58,19 +69,35 @@
     "steps": {
       "lab": {
         "title": "Laboratory",
-        "text": "Incoming wheat is analysed in the laboratory."
+        "text": "Incoming wheat is analysed in the laboratory.",
+        "facts": [
+          "Gluten ≥ 30 %",
+          "Moisture ≤ 15 %"
+        ]
       },
       "milling": {
         "title": "Milling",
-        "text": "Grain is ground and sifted on an automated line."
+        "text": "Grain is ground and sifted on an automated line.",
+        "facts": [
+          "Automated line",
+          "Grades 1–3"
+        ]
       },
       "packing": {
         "title": "Packing",
-        "text": "Flour is filled into 50 kg bags and sewn shut."
+        "text": "Flour is filled into 50 kg bags and sewn shut.",
+        "facts": [
+          "50 kg bag",
+          "Sewn shut"
+        ]
       },
       "loading": {
         "title": "Loading",
-        "text": "Bags are stacked in the warehouse and loaded onto rail wagons."
+        "text": "Bags are stacked in the warehouse and loaded onto rail wagons.",
+        "facts": [
+          "Rail wagon",
+          "Stacked in store"
+        ]
       }
     }
   },
@@ -117,7 +144,7 @@
   },
   "contact": {
     "title": "Request a price",
-    "lead": "Tell us the brand and volume, and we will reply with a price and delivery terms. If it is urgent, call us.",
+    "lead": "Tell us the brand and the volume. We call back with the price and delivery terms.",
     "phones": "Phone",
     "phone": {
       "uz": "Uzbekistan",
@@ -135,7 +162,7 @@
       "phoneHint": "For example: +998 90 123 45 67",
       "brand": "Brand",
       "brandAny": "Not sure yet",
-      "quantity": "Quantity, bags",
+      "quantity": "Number of bags",
       "message": "Comment",
       "messageHint": "Delivery address, timing or any other question",
       "optional": "optional",
@@ -146,17 +173,99 @@
       "again": "Send another request",
       "nameRequired": "Enter your name.",
       "phoneInvalid": "Enter the full phone number, at least 9 digits.",
-      "failed": "The request did not go through. Check your connection and try again, or call {{phone}}."
-    }
+      "failed": "The request did not go through. Check your connection and try again, or call {{phone}}.",
+      "country": "Delivery country",
+      "countryAny": "Choose a country",
+      "countries": {
+        "uz": "Uzbekistan",
+        "kz": "Kazakhstan",
+        "ru": "Russia",
+        "other": "Another country"
+      },
+      "decrease": "Fewer",
+      "increase": "More",
+      "privacy": "We use your number only to call you back about this request.",
+      "errorsCount": "The form has {{count}} errors.",
+      "summary": {
+        "title": "Request summary",
+        "volume": "Volume",
+        "transport": "Transport",
+        "bags": "{{n}} bags",
+        "tonnes": "{{t}} t",
+        "trucks": "≈ {{n}} trucks",
+        "wagons": "≈ {{n}} wagons",
+        "empty": "Enter the number of bags"
+      }
+    },
+    "direct": "Direct line"
   },
   "footer": {
     "company": "Yangiyer Flour Trading LLC",
     "since": "Since 1991",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "sections": "Sections",
+    "contacts": "Contact",
+    "address": "Address"
   },
   "notFound": {
     "title": "Page not found",
     "text": "There is nothing at this address. Continue from the home page.",
     "home": "Go to the home page"
+  },
+  "statement": "Since 1991 we have done one thing: turn wheat into [[first-grade flour]] and get it to buyers in 50 kg bags.",
+  "chapters": {
+    "counter": "{{n}} / {{total}}"
+  },
+  "ui": {
+    "themeDark": "Night mode",
+    "themeLight": "Day mode",
+    "copy": "Copy",
+    "copied": "Copied",
+    "clock": "Time in Yangiyer"
+  },
+  "figures": {
+    "title": "In numbers",
+    "lead": "The company in brief",
+    "items": {
+      "founded": "Year founded",
+      "years": "Years of experience",
+      "brands": "Brands",
+      "bag": "Kilograms per bag",
+      "grades": "Flour grades",
+      "countries": "Countries served"
+    }
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "lead": "Short answers on grade, packaging and delivery. The rest we settle by phone.",
+    "items": [
+      {
+        "q": "Which flour grades do you produce?",
+        "a": "The mill produces wheat flour from first to third grade. The SO‘FRA, MASHRAB, AL HAYOT and SALAM brands are first grade to GOST 26574-85."
+      },
+      {
+        "q": "How is the flour packed?",
+        "a": "Every brand comes in 50 kg bags. Bags are filled on the line, sewn shut and stacked in the warehouse."
+      },
+      {
+        "q": "Which countries do you deliver to?",
+        "a": "We work across Uzbekistan and Kazakhstan, with a separate phone line in Kazakhstan. Large consignments ship by rail wagon. For other countries, send a request."
+      },
+      {
+        "q": "How do I get a price?",
+        "a": "Enter the brand and number of bags in the form, or call us. The price depends on volume and delivery terms, so we confirm it by phone."
+      },
+      {
+        "q": "Where does the wheat come from?",
+        "a": "MASHRAB and AL HAYOT are milled from Kazakh wheat. Every incoming lot is tested in the laboratory before it reaches the mill."
+      }
+    ],
+    "help": {
+      "title": "Need a quick answer?",
+      "text": "On working days reach us by phone or Telegram — the number is one tap to copy.",
+      "call": "Call",
+      "telegram": "Message on Telegram",
+      "email": "Send an email"
+    }
   }
 }
