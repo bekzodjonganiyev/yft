@@ -1,41 +1,24 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
+// Palette taken from the master-branch frontend (app.contex.jsx `colors`).
 const config: Config = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ['./src/**/*.{ts,tsx}'],
   theme: {
+    container: { center: true, padding: '1rem', screens: { '2xl': '1320px' } },
     extend: {
       colors: {
-        wheat: {
-          50: '#FDFBF7',
-          100: '#FBF5E8',
-          200: '#F5E6C4',
-          300: '#EED39A',
-          400: '#E4BD6B',
-          500: '#D49B37',
-          600: '#BA7E26',
-          700: '#945F1B',
-          800: '#754917',
-          900: '#5A3611',
-        },
-        slateIron: {
-          800: '#15253e',
-          900: '#0b192c',
-          950: '#07101e',
-        },
-        milledCream: {
-          50: '#FAF8F4',
-          100: '#F5F1E8',
-          200: '#EAE3D2',
-          300: '#DCD1B8',
+        navy: { DEFAULT: '#082A58', dark: '#061F42' },
+        gold: { DEFAULT: '#FFBC13', dark: '#E5A800' },
+        flame: '#F06D06',
+        ink: '#252525',
+      },
+      keyframes: {
+        pulsate: {
+          '0%': { transform: 'scale(0.6)', opacity: '1' },
+          '100%': { transform: 'scale(1)', opacity: '0' },
         },
       },
-      fontFamily: {
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-      },
+      animation: { pulsate: 'pulsate 2s steps(20) infinite' },
     },
   },
   plugins: [],

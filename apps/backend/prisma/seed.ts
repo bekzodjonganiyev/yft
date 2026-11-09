@@ -36,7 +36,7 @@ async function main() {
       gluten: '28 - 30%',
       ash: '0.55%',
       moisture: '14.0%',
-      imageUrl: '/uploads/flour-premium.png',
+      imageUrl: '', // filled by `pnpm assets:import`
       isFeatured: true,
       order: 1,
     },
@@ -54,7 +54,7 @@ async function main() {
       gluten: '30 - 32%',
       ash: '0.75%',
       moisture: '14.5%',
-      imageUrl: '/uploads/flour-first.png',
+      imageUrl: '', // filled by `pnpm assets:import`
       isFeatured: true,
       order: 2,
     },
@@ -72,7 +72,7 @@ async function main() {
       gluten: '25 - 27%',
       ash: '1.25%',
       moisture: '14.5%',
-      imageUrl: '/uploads/flour-second.png',
+      imageUrl: '', // filled by `pnpm assets:import`
       isFeatured: true,
       order: 3,
     },
@@ -90,7 +90,7 @@ async function main() {
       gluten: '-',
       ash: '5.0%',
       moisture: '13.5%',
-      imageUrl: '/uploads/flour-bran.png',
+      imageUrl: '', // filled by `pnpm assets:import`
       isFeatured: false,
       order: 4,
     },
@@ -104,57 +104,8 @@ async function main() {
   }
   console.log(`🌾 Seeded ${products.length} products`);
 
-  // 3. Seed Initial Gallery Photos
-  const initialPhotos = [
-    {
-      photoUrl: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?q=80&w=1200&auto=format&fit=crop',
-      titleUz: 'Yangiyer zamonaviy tegirmon kompleksi',
-      titleRu: 'Современный мельничный комплекс Янгиер',
-      titleEn: 'Yangiyer modern milling complex',
-      titleAr: 'مجمع مطاحن يانغير الحديث',
-      category: 'production',
-      width: 1200,
-      height: 800,
-    },
-    {
-      photoUrl: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1200&auto=format&fit=crop',
-      titleUz: 'Bug\'doy donlarini saralash va tozalash sexi',
-      titleRu: 'Цех очистки и калибровки зерна',
-      titleEn: 'Grain cleaning and sorting workshop',
-      titleAr: 'ورشة تنظيف وفرز حبوب القمح',
-      category: 'production',
-      width: 1200,
-      height: 800,
-    },
-    {
-      photoUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1200&auto=format&fit=crop',
-      titleUz: 'Tayyor un mahsulotlari logistika ombori',
-      titleRu: 'Склад готовой продукции и логистики',
-      titleEn: 'Finished product storage and logistics hub',
-      titleAr: 'مستودع تخزين المنتجات والخدمات اللوجستية',
-      category: 'factory',
-      width: 1200,
-      height: 800,
-    },
-    {
-      photoUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop',
-      titleUz: 'Sifat nazorati va zamonaviy laboratoriya',
-      titleRu: 'Контроль качества и лаборатория',
-      titleEn: 'Quality control laboratory',
-      titleAr: 'مختبر مراقبة الجودة والتحليل',
-      category: 'laboratory',
-      width: 1200,
-      height: 800,
-    },
-  ];
-
-  for (const ph of initialPhotos) {
-    const existing = await prisma.photo.findFirst({ where: { photoUrl: ph.photoUrl } });
-    if (!existing) {
-      await prisma.photo.create({ data: ph });
-    }
-  }
-  console.log(`📸 Seeded ${initialPhotos.length} gallery photos`);
+  // 3. Gallery photos are not seeded with stock images any more —
+  //    run `pnpm --filter @yft/backend assets:import -- --source <master checkout>` to import the real ones.
 
   // 4. Seed Partners
   const partners = [
@@ -180,12 +131,14 @@ async function main() {
     { key: 'email', value: 'Yangiyerflour@gmail.com' },
     { key: 'address_uz', value: 'O‘zbekiston Respublikasi, Sirdaryo viloyati, Yangiyer shahri, sanoat rayoni' },
     { key: 'working_hours', value: 'Dushanba - Juma: 09:00 - 18:00' },
+    { key: 'about_video_url', value: 'https://www.youtube.com/embed/G0zm9TybxpU' },
+    { key: 'map_embed_url', value: 'https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2997.971617605521!2d69.2168139758326!3d41.287722171312694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDHCsDE3JzE1LjgiTiA2OcKwMTMnMDkuOCJF!5e0!3m2!1sru!2s!4v1682497109753!5m2!1sru!2s' },
   ];
 
   for (const s of settings) {
     await prisma.setting.upsert({
       where: { key: s.key },
-      update: { value: s.value },
+      update: {}, // never overwrite values edited in the admin panel
       create: s,
     });
   }

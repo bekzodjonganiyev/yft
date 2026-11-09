@@ -1,16 +1,12 @@
 import { Logo } from '@/assets/logo'
 
-type AuthLayoutProps = {
-  children: React.ReactNode
-}
-
-export function AuthLayout({ children }: AuthLayoutProps) {
+export function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className='container grid h-svh max-w-none items-center justify-center'>
-      <div className='mx-auto flex w-full flex-col justify-center space-y-2 py-8 sm:p-8'>
-        <div className='mb-4 flex items-center justify-center'>
-          <Logo className='me-2' />
-          <h1 className='text-xl font-medium'>Shadcn Admin</h1>
+      <div className='mx-auto flex w-full flex-col items-center justify-center space-y-2 py-8 sm:p-8'>
+        <div className='mb-4 flex items-center justify-center gap-2'>
+          <Logo />
+          <h1 className='text-xl font-medium'>Yangiyer Flour Trading</h1>
         </div>
         {children}
       </div>

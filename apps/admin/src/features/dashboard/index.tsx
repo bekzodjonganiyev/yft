@@ -1,170 +1,183 @@
-import { Button } from '@/components/ui/button'
+import { format } from 'date-fns'
+import { Link } from '@tanstack/react-router'
+import { Handshake, Image, Inbox, LayoutDashboard, Wheat } from 'lucide-react'
+import { mediaUrl } from '@/lib/api'
+import { INQUIRY_STATUS as STATUS } from '@/lib/labels'
+import type { Stats } from '@/lib/types'
+import { useApiQuery } from '@/hooks/use-api'
+import { Badge } from '@/components/ui/badge'
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ConfigDrawer } from '@/components/config-drawer'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { TopNav } from '@/components/layout/top-nav'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { Analytics } from './components/analytics'
-import { Overview } from './components/overview'
-import { RecentSales } from './components/recent-sales'
-import { Wheat, Inbox, Image, Handshake } from 'lucide-react'
+import { PageShell } from '@/components/page-shell'
+import { QueryState } from '@/components/query-state'
 
 export function Dashboard() {
+  const { data, isLoading, error, refetch } = useApiQuery<Stats>(
+    ['stats'],
+    '/stats'
+  )
+
+  const tiles = data
+    ? [
+        {
+          label: 'Mahsulotlar',
+          value: data.productsCount,
+          icon: Wheat,
+          to: '/products' as const,
+        },
+        {
+          label: 'Galereya fotolari',
+          value: data.photosCount,
+          icon: Image,
+          to: '/photos' as const,
+        },
+        {
+          label: 'Hamkorlar',
+          value: data.partnersCount,
+          icon: Handshake,
+          to: '/partners' as const,
+        },
+        {
+          label: 'Murojaatlar',
+          value: data.inquiriesCount,
+          icon: Inbox,
+          to: '/inquiries' as const,
+          note: data.newInquiriesCount
+            ? `${data.newInquiriesCount} ta yangi`
+            : undefined,
+        },
+      ]
+    : []
+
   return (
-    <>
-      {/* ===== Top Heading ===== */}
-      <Header>
-        <TopNav links={topNav} className='me-auto' />
-        <Search />
-        <ThemeSwitch />
-        <ConfigDrawer />
-        <ProfileDropdown />
-      </Header>
-
-      {/* ===== Main ===== */}
-      <Main>
-        <div className='mb-2 flex items-center justify-between space-y-2'>
-          <div>
-            <h1 className='text-2xl font-bold tracking-tight'>YFT Boshqaruv Paneli</h1>
-            <p className='text-muted-foreground text-sm'>
-              Yangiyer Flour Trading ishlab chiqarish, mahsulotlar va buyurtmalar statistikasi.
-            </p>
-          </div>
-          <div className='flex items-center space-x-2'>
-            <Button className='bg-amber-600 hover:bg-amber-700 text-white'>Hisobotni Yuklash (PDF)</Button>
-          </div>
-        </div>
-        <Tabs
-          orientation='vertical'
-          defaultValue='overview'
-          className='space-y-4'
-        >
-          <div className='w-full overflow-x-auto pb-2'>
-            <TabsList>
-              <TabsTrigger value='overview'>Ko'rsatkichlar (Overview)</TabsTrigger>
-              <TabsTrigger value='analytics'>Analitika (Tegirmon quvvati)</TabsTrigger>
-            </TabsList>
-          </div>
-          <TabsContent value='overview' className='space-y-4'>
+    <PageShell
+      title='Bosh sahifa'
+      description='Sayt kontenti va murojaatlar bo‘yicha qisqacha holat.'
+      icon={LayoutDashboard}
+    >
+      <QueryState
+        isLoading={isLoading}
+        error={error}
+        isEmpty={false}
+        emptyText=''
+        onRetry={() => refetch()}
+      >
+        {data && (
+          <>
             <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+              {tiles.map((t) => (
+                <Link
+                  key={t.label}
+                  to={t.to}
+                  className='rounded-xl transition-shadow hover:shadow-md'
+                >
+                  <Card>
+                    <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                      <CardTitle className='text-sm font-medium'>
+                        {t.label}
+                      </CardTitle>
+                      <t.icon className='h-4 w-4 text-muted-foreground' />
+                    </CardHeader>
+                    <CardContent>
+                      <div className='text-3xl font-bold tabular-nums'>
+                        {t.value}
+                      </div>
+                      {t.note && (
+                        <p className='text-xs font-medium text-amber-600'>
+                          {t.note}
+                        </p>
+                      )}
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+
+            <div className='grid gap-4 lg:grid-cols-2'>
               <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    Un Mahsulotlari
-                  </CardTitle>
-                  <Wheat className='h-4 w-4 text-amber-500' />
+                <CardHeader>
+                  <CardTitle>So‘nggi murojaatlar</CardTitle>
+                  <CardDescription>Oxirgi 5 ta xabar</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>4 tur</div>
-                  <p className='text-xs text-muted-foreground'>
-                    Oliy nav, 1-nav, 2-nav, kepak
-                  </p>
+                <CardContent className='space-y-4'>
+                  {data.recentInquiries.length === 0 && (
+                    <p className='text-sm text-muted-foreground'>
+                      Hozircha murojaat yo‘q.
+                    </p>
+                  )}
+                  {data.recentInquiries.map((i) => (
+                    <div
+                      key={i.id}
+                      className='flex items-start justify-between gap-3'
+                    >
+                      <div className='min-w-0'>
+                        <p className='truncate text-sm font-medium'>
+                          {i.fullName}
+                        </p>
+                        <p className='truncate text-xs text-muted-foreground'>
+                          {i.message}
+                        </p>
+                      </div>
+                      <div className='flex shrink-0 flex-col items-end gap-1'>
+                        <Badge className={STATUS[i.status].className}>
+                          {STATUS[i.status].label}
+                        </Badge>
+                        <span className='text-xs text-muted-foreground'>
+                          {format(new Date(i.createdAt), 'dd.MM HH:mm')}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    Mijozlar Murojaatlari
-                  </CardTitle>
-                  <Inbox className='h-4 w-4 text-blue-500' />
+                <CardHeader>
+                  <CardTitle>So‘nggi mahsulotlar</CardTitle>
+                  <CardDescription>
+                    Oxirgi qo‘shilgan yoki yangilangan
+                  </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>2 ta yangi</div>
-                  <p className='text-xs text-muted-foreground'>
-                    Ulgurji xarid va eksport so'rovlari
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Foto Galereya</CardTitle>
-                  <Image className='h-4 w-4 text-emerald-500' />
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>12 fotosurat</div>
-                  <p className='text-xs text-muted-foreground'>
-                    Tegirmon, laboratoriya, ombor
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    Hamkor Korxonalar
-                  </CardTitle>
-                  <Handshake className='h-4 w-4 text-purple-500' />
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>5 ta kompaniya</div>
-                  <p className='text-xs text-muted-foreground'>
-                    Yirik non sexlari va distribyutorlar
-                  </p>
+                <CardContent className='space-y-3'>
+                  {data.recentProducts.length === 0 && (
+                    <p className='text-sm text-muted-foreground'>
+                      Mahsulot yo‘q.
+                    </p>
+                  )}
+                  {data.recentProducts.map((p) => (
+                    <div key={p.id} className='flex items-center gap-3'>
+                      <div className='flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded border bg-muted'>
+                        {p.imageUrl ? (
+                          <img
+                            src={mediaUrl(p.imageUrl)}
+                            alt=''
+                            className='h-full w-full object-cover'
+                          />
+                        ) : (
+                          <Wheat className='h-4 w-4 text-amber-500' />
+                        )}
+                      </div>
+                      <div className='min-w-0'>
+                        <p className='truncate text-sm font-medium'>
+                          {p.titleUz}
+                        </p>
+                        <p className='text-xs text-muted-foreground'>
+                          {p.packaging}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
             </div>
-            <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-              <Card className='col-span-1 lg:col-span-4'>
-                <CardHeader>
-                  <CardTitle>Oylik Yetkazib Berish Hajmi (Tonna)</CardTitle>
-                </CardHeader>
-                <CardContent className='pl-2'>
-                  <Overview />
-                </CardContent>
-              </Card>
-              <Card className='col-span-1 lg:col-span-3'>
-                <CardHeader>
-                  <CardTitle>So'nggi Murojaatlar</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <RecentSales />
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-          <TabsContent value='analytics' className='space-y-4'>
-            <Analytics />
-          </TabsContent>
-        </Tabs>
-      </Main>
-    </>
+          </>
+        )}
+      </QueryState>
+    </PageShell>
   )
 }
-
-const topNav = [
-  {
-    title: 'Umumiy',
-    href: '/',
-    isActive: true,
-    disabled: false,
-  },
-  {
-    title: 'Mahsulotlar',
-    href: '/products',
-    isActive: false,
-    disabled: false,
-  },
-  {
-    title: 'Galereya',
-    href: '/photos',
-    isActive: false,
-    disabled: false,
-  },
-  {
-    title: 'Murojaatlar',
-    href: '/inquiries',
-    isActive: false,
-    disabled: false,
-  },
-]

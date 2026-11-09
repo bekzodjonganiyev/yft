@@ -27,9 +27,10 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
     <ConfirmDialog
       open={open}
       onOpenChange={onOpenChange}
-      title='Sign out'
-      desc='Are you sure you want to sign out? You will need to sign in again to access your account.'
-      confirmText='Sign out'
+      title='Chiqish'
+      desc='Tizimdan chiqmoqchimisiz? Qayta kirish uchun email va parol kerak bo‘ladi.'
+      confirmText='Chiqish'
+      cancelBtnText='Bekor qilish'
       destructive
       handleConfirm={handleSignOut}
       className='sm:max-w-sm'

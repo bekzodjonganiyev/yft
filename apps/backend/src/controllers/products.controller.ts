@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../config/prisma';
+import { releaseMedia, storeUpload } from '../services/media.service';
+import { sendError, toInt } from '../utils/http';
 
 export const getProducts = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -28,7 +30,7 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
 
     res.status(200).json({ success: true, data: products, count: products.length });
   } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+    sendError(res, error);
   }
 };
 
@@ -46,7 +48,7 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
 
     res.status(200).json({ success: true, data: product });
   } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+    sendError(res, error);
   }
 };
 
@@ -71,8 +73,8 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
       order,
     } = req.body;
 
-    const file = req.file;
-    const finalImageUrl = file ? `/uploads/${file.filename}` : (imageUrl || '');
+    const media = await storeUpload(req.file);
+    const finalImageUrl = media?.url ?? (imageUrl || '');
 
     if (!titleUz || !titleRu || !titleEn) {
       res.status(400).json({ success: false, message: 'Product titles in Uz, Ru and En are required' });
@@ -96,13 +98,13 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
         moisture: moisture || '14%',
         imageUrl: finalImageUrl,
         isFeatured: isFeatured === 'true' || isFeatured === true,
-        order: order ? parseInt(order, 10) : 0,
+        order: toInt(order, 0),
       },
     });
 
     res.status(201).json({ success: true, message: 'Product created successfully', data: product });
   } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+    sendError(res, error);
   }
 };
 
@@ -128,8 +130,8 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
       order,
     } = req.body;
 
-    const file = req.file;
-    const finalImageUrl = file ? `/uploads/${file.filename}` : imageUrl;
+    const media = await storeUpload(req.file);
+    const finalImageUrl: string | undefined = media?.url ?? imageUrl;
 
     const existing = await prisma.product.findUnique({ where: { id } });
     if (!existing) {
@@ -155,22 +157,27 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
         ...(moisture !== undefined && { moisture }),
         ...(finalImageUrl !== undefined && { imageUrl: finalImageUrl }),
         ...(isFeatured !== undefined && { isFeatured: isFeatured === 'true' || isFeatured === true }),
-        ...(order !== undefined && { order: parseInt(order, 10) }),
+        ...(order !== undefined && { order: toInt(order, existing.order) }),
       },
     });
 
+    if (finalImageUrl !== undefined && finalImageUrl !== existing.imageUrl) {
+      await releaseMedia(existing.imageUrl);
+    }
+
     res.status(200).json({ success: true, message: 'Product updated successfully', data: updated });
   } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+    sendError(res, error);
   }
 };
 
 export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = String(req.params.id);
-    await prisma.product.delete({ where: { id } });
+    const deleted = await prisma.product.delete({ where: { id } });
+    await releaseMedia(deleted.imageUrl);
     res.status(200).json({ success: true, message: 'Product deleted successfully' });
   } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+    sendError(res, error);
   }
 };

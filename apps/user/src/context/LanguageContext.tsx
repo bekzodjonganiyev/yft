@@ -1,56 +1,58 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Locale, translations, Translations } from '@/lib/translations';
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
+import { dictionaries, type Dictionary, type Locale } from '@/lib/i18n';
 
-interface LanguageContextType {
+interface LanguageContextValue {
   locale: Locale;
-  setLocale: (loc: Locale) => void;
-  t: Translations;
+  setLocale: (locale: Locale) => void;
+  t: Dictionary;
   dir: 'ltr' | 'rtl';
 }
 
-const LanguageContext = createContext<LanguageContextType>({
+const STORAGE_KEY = 'yft_locale';
+const isLocale = (v: unknown): v is Locale => v === 'uz' || v === 'ru' || v === 'en' || v === 'ar';
+
+const LanguageContext = createContext<LanguageContextValue>({
   locale: 'uz',
   setLocale: () => {},
-  t: translations.uz,
+  t: dictionaries.uz,
   dir: 'ltr',
 });
 
-export const LanguageProvider = ({ children }: { children: any }) => {
+export function LanguageProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>('uz');
 
   useEffect(() => {
-    const saved = localStorage.getItem('yft_locale') as Locale;
-    if (saved && ['uz', 'ru', 'en', 'ar'].includes(saved)) {
-      setLocaleState(saved);
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (isLocale(saved)) setLocaleState(saved);
+    } catch {
+      /* storage blocked — keep default */
     }
   }, []);
 
-  const setLocale = (newLocale: Locale) => {
-    setLocaleState(newLocale);
-    localStorage.setItem('yft_locale', newLocale);
-    if (typeof document !== 'undefined') {
-      document.documentElement.lang = newLocale;
-      document.documentElement.dir = newLocale === 'ar' ? 'rtl' : 'ltr';
-    }
-  };
-
   useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.documentElement.lang = locale;
-      document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
-    }
+    document.documentElement.lang = locale;
+    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
   }, [locale]);
 
-  const dir = locale === 'ar' ? 'rtl' : 'ltr';
-  const t = translations[locale] || translations.uz;
+  const setLocale = useCallback((next: Locale) => {
+    setLocaleState(next);
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   return (
-    <LanguageContext.Provider value={{ locale, setLocale, t, dir }}>
+    <LanguageContext.Provider
+      value={{ locale, setLocale, t: dictionaries[locale], dir: locale === 'ar' ? 'rtl' : 'ltr' }}
+    >
       {children}
     </LanguageContext.Provider>
   );
-};
+}
 
 export const useLanguage = () => useContext(LanguageContext);

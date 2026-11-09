@@ -1,76 +1,60 @@
-import { clearCookies } from '@/test-utils/cookies'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 async function importAuthStore() {
-  const { useAuthStore } = await import('./auth-store')
-  return useAuthStore
+  return (await import('./auth-store')).useAuthStore
 }
 
-const sampleUser = {
-  accountNo: 'ACC-1',
-  email: 'user@example.com',
-  role: ['user'],
-  exp: 1_700_000_000,
+const user = {
+  id: 'u1',
+  name: 'Admin',
+  email: 'admin@yft.uz',
+  role: 'ADMIN' as const,
 }
 
 describe('useAuthStore', () => {
   beforeEach(() => {
-    clearCookies()
+    localStorage.clear()
     vi.resetModules()
   })
 
-  it('starts with an empty access token when nothing is persisted', async () => {
-    const useAuthStore = await importAuthStore()
-
-    expect(useAuthStore.getState().auth.accessToken).toBe('')
-    expect(useAuthStore.getState().auth.user).toBeNull()
+  it('starts signed out when nothing is persisted', async () => {
+    const store = await importAuthStore()
+    expect(store.getState().auth.accessToken).toBe('')
+    expect(store.getState().auth.user).toBeNull()
   })
 
-  it('persists access token so a new store instance reads it back', async () => {
-    const useAuthStore = await importAuthStore()
-    useAuthStore.getState().auth.setAccessToken('session-token')
-
+  it('persists the session across reloads', async () => {
+    const store = await importAuthStore()
+    store.getState().auth.setSession('token-1', user)
     vi.resetModules()
-    const useAuthStoreAfterReload = await importAuthStore()
-
-    expect(useAuthStoreAfterReload.getState().auth.accessToken).toBe(
-      'session-token'
-    )
+    const reloaded = await importAuthStore()
+    expect(reloaded.getState().auth.accessToken).toBe('token-1')
+    expect(reloaded.getState().auth.user).toEqual(user)
   })
 
-  it('clears persisted access token when resetAccessToken is used', async () => {
-    const useAuthStore = await importAuthStore()
-    useAuthStore.getState().auth.setAccessToken('to-clear')
-    useAuthStore.getState().auth.resetAccessToken()
-
+  it('reset clears the session and its persistence', async () => {
+    const store = await importAuthStore()
+    store.getState().auth.setSession('token-2', user)
+    store.getState().auth.reset()
+    expect(store.getState().auth.accessToken).toBe('')
     vi.resetModules()
-    const useAuthStoreAfterReload = await importAuthStore()
+    const reloaded = await importAuthStore()
+    expect(reloaded.getState().auth.accessToken).toBe('')
+  })
+})
 
-    expect(useAuthStoreAfterReload.getState().auth.accessToken).toBe('')
+describe('isTokenValid', () => {
+  const jwt = (payload: object) => `x.${btoa(JSON.stringify(payload))}.y`
+
+  it('accepts a token that has not expired', async () => {
+    const { isTokenValid } = await import('./auth-store')
+    expect(isTokenValid(jwt({ exp: Date.now() / 1000 + 60 }))).toBe(true)
   })
 
-  it('updates the signed-in user via setUser', async () => {
-    const useAuthStore = await importAuthStore()
-
-    useAuthStore.getState().auth.setUser({ ...sampleUser })
-
-    expect(useAuthStore.getState().auth.user).toEqual(sampleUser)
-  })
-
-  it('reset clears user and access token and drops persistence', async () => {
-    const useAuthStore = await importAuthStore()
-    useAuthStore.getState().auth.setAccessToken('will-be-cleared')
-    useAuthStore.getState().auth.setUser({ ...sampleUser })
-
-    useAuthStore.getState().auth.reset()
-
-    expect(useAuthStore.getState().auth.user).toBeNull()
-    expect(useAuthStore.getState().auth.accessToken).toBe('')
-
-    vi.resetModules()
-    const useAuthStoreAfterReload = await importAuthStore()
-
-    expect(useAuthStoreAfterReload.getState().auth.user).toBeNull()
-    expect(useAuthStoreAfterReload.getState().auth.accessToken).toBe('')
+  it('rejects expired, empty and malformed tokens', async () => {
+    const { isTokenValid } = await import('./auth-store')
+    expect(isTokenValid(jwt({ exp: Date.now() / 1000 - 60 }))).toBe(false)
+    expect(isTokenValid('')).toBe(false)
+    expect(isTokenValid('garbage')).toBe(false)
   })
 })

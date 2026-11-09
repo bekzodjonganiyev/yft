@@ -15,7 +15,7 @@ Production-ready backend API service for Yangiyer Flour Trading platform built w
 
 ### Authentication
 - `POST /api/auth/login` - Admin login (returns JWT token and user info)
-- `POST /api/auth/register` - Register new admin/manager user
+- `POST /api/auth/register` - Create a new admin/manager user (**admin token required**)
 - `GET /api/auth/me` - Get authenticated user profile (Bearer token required)
 
 ### Products (Wheat Flour & Grains)
@@ -27,9 +27,10 @@ Production-ready backend API service for Yangiyer Flour Trading platform built w
 
 ### Gallery / Photos
 - `GET /api/photos` - List all gallery photos
-- `POST /api/photos` - Upload gallery photo with width/height/category
+- `POST /api/photos` - Upload gallery photo (field `photo`); width/height are read from the file
+- `PUT /api/photos/:id` - Update photo titles/category or replace the image
 - `DELETE /api/photos/:id` - Delete photo
-- Legacy compatibility: `GET /photo/all`, `POST /photo/add`, `DELETE /photo/:id`
+- Legacy compatibility: `GET /photo/all`, `POST /photo/add` (auth), `DELETE /photo/:id` (auth)
 
 ### Partners
 - `GET /api/partners` - List partner companies and logos
@@ -42,6 +43,47 @@ Production-ready backend API service for Yangiyer Flour Trading platform built w
 - `GET /api/inquiries` - Admin list of inquiries (filter by status `NEW`, `IN_PROGRESS`, `RESOLVED`)
 - `PATCH /api/inquiries/:id/status` - Update inquiry status
 - `DELETE /api/inquiries/:id` - Remove inquiry
+
+### Media (file storage)
+- `GET /api/media` - Media library with `inUse` flag (auth)
+- `POST /api/media` - Upload an image, field `file` (auth). Same as `POST /api/upload`
+- `DELETE /api/media/:id[?force=true]` - Delete a file; refused with 409 while still referenced (auth)
+
+### Site settings
+- `GET /api/settings` - Public `{ key: value }` map (phone, email, address, `asset.*` images, `social.*` links…)
+- `PUT /api/settings/:key` - JSON `{ value }` or multipart image in field `file` (auth)
+- `DELETE /api/settings/:key` (auth)
+
+## How files are stored
+
+All uploads (product images, gallery photos, partner logos, site assets, inquiry attachments) go through
+`src/services/media.service.ts`:
+
+1. Multer keeps the upload in memory (max 15 MB) — nothing touches disk before validation.
+2. The real type is detected from the file bytes (JPEG, PNG, WEBP, GIF, AVIF; PDF/DOC/DOCX for inquiry
+   attachments). A renamed `.html`/`.svg` is rejected.
+3. The SHA-256 hash names the file (`uploads/img-<hash>.jpg`) and is unique in the `media` table, so the
+   same image uploaded twice is stored once.
+4. Image width/height are saved (the gallery uses them for its layout).
+5. When a product/photo/partner/setting/inquiry is deleted or its image replaced, `releaseMedia()` removes
+   the old file if nothing else references it.
+
+Files are served from `/uploads/*` with long-lived immutable caching and `X-Content-Type-Options: nosniff`.
+
+### Importing the images of the old (master branch) site
+
+```bash
+git worktree add ../yft-master master        # once, if you don't have a master checkout
+pnpm --filter @yft/backend assets:import -- --source ../../../yft-master
+```
+
+Copies the logo, wheat photos, contact illustration and section backgrounds into storage, creates gallery
+photos and fills `asset.*` settings. It also tries the remote images the old site used (product brand
+images, partner logos). As of Nov 2026 those hosts are offline (`backend.tkti.uz` → 502,
+`new-tkti-back.herokuapp.com` → 404), so those steps are reported as failed and the section backgrounds
+fall back to local photos — upload the real logos/product images from the admin panel instead.
+Flags: `--skip-remote`, `--localize-db` (copy any other http(s) image URL in the DB), `--force`.
+The script is idempotent.
 
 ### Dashboard Analytics
 - `GET /api/stats` - Total products, photos, partners, inquiries, latest activity
@@ -57,7 +99,7 @@ Production-ready backend API service for Yangiyer Flour Trading platform built w
    ```bash
    npx prisma db push
    ```
-4. Seed initial data (default admin `admin@yft.uz` / `Admin123!`, sample products, photos, partners):
+4. Seed initial data (default admin `admin@yft.uz` / `Admin123!`, sample products, partners and settings):
    ```bash
    npm run prisma:seed
    ```

@@ -1,34 +1,36 @@
 import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
-import { ENV } from '../config/env';
 
-if (!fs.existsSync(ENV.UPLOAD_DIR)) {
-  fs.mkdirSync(ENV.UPLOAD_DIR, { recursive: true });
-}
+/**
+ * Files are kept in memory and handed to `media.service` which validates the real file type,
+ * deduplicates by hash and writes to UPLOAD_DIR. Nothing is written to disk before validation.
+ */
+const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
 
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, ENV.UPLOAD_DIR);
-  },
-  filename: (_req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const ext = path.extname(file.originalname);
-    cb(null, `yft-${uniqueSuffix}${ext}`);
-  },
-});
+const IMAGE_MIME = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
+const DOCUMENT_MIME = [
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+];
 
-const fileFilter = (_req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-  const allowedMime = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-  if (allowedMime.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error('Unsupported file type. Only JPEG, PNG, WEBP, GIF, PDF, and DOC files are allowed.'));
-  }
-};
+const makeUpload = (allowed: string[], label: string) =>
+  multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: MAX_FILE_SIZE, files: 1 },
+    fileFilter: (_req, file, cb) => {
+      // Cheap early rejection; the authoritative check is the magic-byte detection in media.service.
+      if (allowed.includes(file.mimetype)) return cb(null, true);
+      const err = new Error(`Unsupported file type. Allowed: ${label}.`) as Error & { statusCode: number };
+      err.statusCode = 400;
+      cb(err);
+    },
+  });
 
-export const upload = multer({
-  storage,
-  limits: { fileSize: 15 * 1024 * 1024 }, // 15MB
-  fileFilter,
-});
+/** Images only (products, gallery photos, partner logos, site assets). */
+export const imageUpload = makeUpload(IMAGE_MIME, 'JPEG, PNG, WEBP, GIF, AVIF');
+
+/** Images or documents (inquiry attachments). */
+export const attachmentUpload = makeUpload([...IMAGE_MIME, ...DOCUMENT_MIME], 'images, PDF, DOC, DOCX');
+
+/** @deprecated kept for older imports — same as imageUpload */
+export const upload = imageUpload;

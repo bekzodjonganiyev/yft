@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../config/prisma';
+import { releaseMedia, storeUpload } from '../services/media.service';
+import { sendError } from '../utils/http';
 
 export const getInquiries = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -16,13 +18,12 @@ export const getInquiries = async (req: Request, res: Response): Promise<void> =
 
     res.status(200).json({ success: true, data: inquiries, count: inquiries.length });
   } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+    sendError(res, error);
   }
 };
 
 export const createInquiry = async (req: Request, res: Response): Promise<void> => {
   try {
-    const file = req.file;
     const { fullName, phone, email, subject, message } = req.body;
 
     if (!fullName || !phone || !message) {
@@ -30,7 +31,7 @@ export const createInquiry = async (req: Request, res: Response): Promise<void> 
       return;
     }
 
-    const fileUrl = file ? `/uploads/${file.filename}` : undefined;
+    const fileUrl = (await storeUpload(req.file, 'attachment'))?.url;
 
     const inquiry = await prisma.inquiry.create({
       data: {
@@ -50,7 +51,7 @@ export const createInquiry = async (req: Request, res: Response): Promise<void> 
       data: inquiry,
     });
   } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+    sendError(res, error);
   }
 };
 
@@ -71,16 +72,17 @@ export const updateInquiryStatus = async (req: Request, res: Response): Promise<
 
     res.status(200).json({ success: true, message: 'Inquiry status updated', data: inquiry });
   } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+    sendError(res, error);
   }
 };
 
 export const deleteInquiry = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = String(req.params.id);
-    await prisma.inquiry.delete({ where: { id } });
+    const deleted = await prisma.inquiry.delete({ where: { id } });
+    await releaseMedia(deleted.fileUrl);
     res.status(200).json({ success: true, message: 'Inquiry deleted successfully' });
   } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+    sendError(res, error);
   }
 };

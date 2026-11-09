@@ -98,6 +98,28 @@ model Inquiry {
   @@map("inquiries")
 }
 
+/// Every file stored on the backend (uploads/). Deduplicated by SHA-256 hash.
+model Media {
+  id           String   @id @default(uuid())
+  /// File name inside UPLOAD_DIR, e.g. "img-3f9a…c1.jpg"
+  filename     String   @unique
+  /// Public URL path, e.g. "/uploads/img-3f9a…c1.jpg"
+  url          String   @unique
+  hash         String   @unique
+  mimeType     String
+  size         Int
+  width        Int?
+  height       Int?
+  originalName String?
+  /// Where the file came from (original path or remote URL) — used by the importer to stay idempotent
+  source       String?
+  alt          String?
+  createdAt    DateTime @default(now())
+
+  @@index([source])
+  @@map("media")
+}
+
 model Setting {
   id          String   @id @default(uuid())
   key         String   @unique

@@ -6,12 +6,12 @@ import {
   deleteInquiry,
 } from '../controllers/inquiries.controller';
 import { authenticate } from '../middleware/auth';
-import { upload } from '../middleware/upload';
+import { attachmentUpload } from '../middleware/upload';
 
 const router = Router();
 
 // Public route to submit inquiry from user frontend
-router.post('/', upload.single('attachment'), createInquiry);
+router.post('/', attachmentUpload.single('attachment'), createInquiry);
 
 // Protected admin routes
 router.get('/', authenticate, getInquiries);
