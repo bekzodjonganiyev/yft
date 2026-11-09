@@ -1,6 +1,6 @@
 # Yangiyer Flour Trading: redesign rejasi
 
-Asos: `origin/update` (b07292f), ya'ni yangiyerflourtrading.uz'da hozir turgan kod.
+Asos: `origin/update` (b07292f), yaʼni yangiyerflourtrading.uz’da hozir turgan kod. Stack: Next.js 16 (§7).
 Jarayon: `frontend-design` (reja → qayta ko'rib chiqish → kod), `vercel-react-best-practices`,
 `web-design-guidelines` + `accessibility` (audit), `impeccable` (yakuniy pardoz).
 
@@ -138,17 +138,41 @@ Xuddi shunday "un tegirmoni landing'i" so'ralganda men odatda nima qilardim, shu
   **Almashtirildi:** eyebrow yo'q. Raqamlash faqat Process'da qoldi, chunki u haqiqiy ketma-ketlik.
 - *Default:* tugmalarga "→" qo'shish va kartalarda hover-scale. **Olib tashlandi.**
 
-## 7. Texnik reja (Vite + React)
+## 7. Texnik stack (Next.js 16)
 
-- `App`'dagi `h-screen overflow` scroll konteyneri olib tashlanadi, `window` scroll'i qaytadi.
-- Olib tashlanadigan kutubxonalar: flowbite(-react), react-slick + slick-carousel, react-awesome-reveal, recharts, axios,
-  @emailjs/browser, hamburger-react, react-lazy-load-image-component, i18next-http-backend va o'chgan API konteksti.
-- Rasmlar: `vite-imagetools` bilan AVIF/WebP va `srcset`. Hero fotosi `preload` qilinadi, qolganlari `loading="lazy"`.
-- i18n: `i18next` qoladi. `<html lang/dir>` til bilan sinxronlanadi, arab tili uchun RTL logical properties ishlatiladi
-  (`ms-`/`me-`/`start`). Arabcha matnlar haqiqiy arab tiliga qayta tarjima qilinadi (ona tilida so'zlashuvchi tekshirishi kerak).
-- Kontakt forma: so'rov `/api/inquiry` Vercel serverless funksiyasiga ketadi. Bot tokeni server env'ida turadi.
-  Honeypot qo'shiladi, reCAPTCHA esa serverda tekshiriladi. Natija sahifada inline ko'rsatiladi (`alert` yo'q).
-- GA bitta `gtag` bilan qoldiriladi, placeholder UA ulanishi olib tashlanadi.
+| Qatlam | Tanlov |
+|---|---|
+| Framework | **Next.js 16.4** (App Router, Turbopack), **React 19.3** |
+| Til | **TypeScript 6.0** (strict) |
+| Stil | **Tailwind CSS 4.3**: tokenlar `src/app/globals.css` ichidagi `@theme` blokida, JS konfiguratsiyasi yoʻq |
+| Shrift | `next/font/google`: IBM Plex Sans (lotin, kirill) + IBM Plex Sans Arabic, self-host qilinadi |
+| Rasm | `next/image` (AVIF → WebP, blur placeholder); hero `loading="eager"` + `fetchPriority="high"` |
+| Lint | ESLint 9 flat config (`eslint-config-next/core-web-vitals` + `typescript`). Next 16'da `next lint` yoʻq |
+
+**Routing va i18n**
+
+- Har bir sahifa `/[locale]` ostida joylashgan (`/uz`, `/ru`, `/en`, `/ar`, `/…/photos`).
+  Hammasi `generateStaticParams` orqali statik HTML sifatida build qilinadi, `dynamicParams = false`.
+- `src/proxy.ts` (Next 16'da `middleware` oʻrniga keladi) tilsiz manzilni yoʻnaltiradi.
+  Til tanlash tartibi: `NEXT_LOCALE` cookie → `Accept-Language` → `uz`.
+- Tarjimalar `src/i18n/locales/*.json` fayllarida turadi va faqat serverda yuklanadi (`getDictionary`, `next/root-params`).
+  Client komponentlarga faqat ular kerak qiladigan qatorlar prop sifatida beriladi.
+- `<html lang dir>` serverda qoʻyiladi, shuning uchun RTL'da sahifa "sakramaydi".
+- SEO: har bir tilga alohida `title`/`description`, `hreflang` (+ `x-default`), canonical, Open Graph, `sitemap.xml`, `robots.txt`.
+- Eski `/news`, `/vacancies`, `/details/*` manzillari `next.config.ts` orqali 308 bilan `/`'ga yoʻnaltiriladi.
+
+**Server va client komponentlar**
+
+- Server (brauzerga JS yubormaydi): Hero, Brands, About, Process, GalleryPreview, Contact, Footer, sahifalar.
+- Client (faqat interaktiv qismlar): Header (mobil menyu), LanguageSelect, BrandShelf (javon animatsiyasi),
+  ContactForm, PhotoGrid. Lightbox esa faqat foto ochilganda yuklanadi.
+- Brend tanlash URL orqali ishlaydi: `/uz?brand=salam#contact`. Bu havolani nusxalab yuborish mumkin, forma brend tanlangan holda ochiladi.
+
+**Kontakt forma**
+
+- `POST /api/inquiry` (`src/app/api/inquiry/route.ts`) soʻrovni Telegram'ga yuboradi. Token faqat server env'ida turadi.
+- Spamdan himoya: honeypot, 2.5 soniyalik minimal toʻldirish vaqti va IP boʻyicha cheklov (10 daqiqada 5 ta).
+- Natija va xato sahifaning oʻzida koʻrsatiladi (`alert` yoʻq), xato xabarida zaxira telefon raqami beriladi.
 
 ## 8. Amalga oshirish eslatmalari
 
@@ -156,13 +180,20 @@ Xuddi shunday "un tegirmoni landing'i" so'ralganda men odatda nima qilardim, shu
   Shuning uchun matnlarda `‘` (U+2018) va `’` (U+2019) ishlatiladi.
 - **Input chegarasi:** `steel-400` (#B9C2C7) oq fonda faqat 1.8:1 beradi. Shuning uchun boshqaruv elementlarida
   `steel-600` (#74838D) ishlatiladi: Flour fonda 3.9:1, Steel fonda 3.2:1 (WCAG 1.4.11).
-- **Eski URL'lar:** `/news`, `/vacancies`, `/details/*` bosh sahifaga yoʻnaltiriladi, ular 404 bermaydi.
-- **Tekshiruv:** axe-core (WCAG 2.2 AA + best-practice) uz, ar (RTL) va /photos sahifalarida 0 ta buzilish koʻrsatdi.
-  Production build'ning birinchi yuklanishi taxminan 260 KB (hero AVIF 15 KB, JS 91 KB gzip).
+- **OG rasmi:** `app/opengraph-image.jpg`. `[locale]/layout` oʻzining `openGraph` obyektini beradi va u meros
+  kelgan rasmni ustidan yozib yuboradi, shuning uchun rasm u yerda ham aniq koʻrsatilgan.
+- **Tekshiruv (production build):** axe-core (WCAG 2.2 AA + best-practice) `/uz`, `/ar` va `/en/photos` sahifalarida 0 ta buzilish koʻrsatdi.
+  `/uz` hajmi: HTML 18 KB, CSS 8 KB, JS 185 KB (gzip, asosan Next + React runtime), hero AVIF 19 KB.
 
-## 9. Deploy (Vercel)
+## 9. Ishga tushirish va deploy
 
-1. Project → Settings → Environment Variables: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`.
-   Eski token kodda ochiq qolgan, shuning uchun avval @BotFather'da `/revoke` qilib, yangisini kiriting.
-2. Build: `npm run build`, output: `dist`. `/api/inquiry` funksiyasi `api/` papkasidan avtomatik olinadi.
-3. Lokal ishga tushirish: `npm run dev`. Token berilmagan boʻlsa, forma dry-run rejimida ishlaydi va soʻrovni terminalga yozadi.
+```bash
+npm install
+npm run dev        # http://localhost:3000; token boʻlmasa, forma soʻrovni terminalga yozadi (dry-run)
+npm run build && npm start
+npm run lint && npm run typecheck
+```
+
+Vercel: framework preset **Next.js**, qoʻshimcha sozlama talab qilinmaydi.
+Environment Variables boʻlimiga `TELEGRAM_BOT_TOKEN` va `TELEGRAM_CHAT_ID` kiritiladi.
+Eski token git tarixida qolgan, shuning uchun avval @BotFather'da `/revoke` qilib, yangisini oling.

@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+/* Design tokens — DESIGN.md §3. Tailwind v4 reads them from CSS. */
+@theme {
+  --color-silo: #0b3b55;
+  --color-silo-700: #082d41;
+  --color-silo-300: #2c6585;
+  --color-gold: #eead0f;
+  --color-gold-600: #d69a06;
+  --color-steel: #e4e8ea;
+  --color-steel-400: #b9c2c7; /* hairlines and dividers only */
+  --color-steel-600: #74838d; /* control borders: ≥3:1 on Flour and Steel (WCAG 1.4.11) */
+  --color-ink: #14283a;
+  --color-ink-600: #4a5d6c;
+  --color-flour: #ffffff;
+  --color-danger: #b42318;
+
+  /* IBM Plex Sans (Latin + Cyrillic) with IBM Plex Sans Arabic for Arabic glyphs; set by next/font. */
+  --font-sans: var(--font-plex), var(--font-plex-arabic), system-ui, sans-serif;
+
+  /* 1.25 modular scale: 14 / 17 body / 20 / 25 / 31 / 39 / 61 */
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.45;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.5;
+  --text-xl: 1.5625rem;
+  --text-xl--line-height: 1.3;
+  --text-2xl: 1.9375rem;
+  --text-2xl--line-height: 1.2;
+  --text-3xl: 2.4375rem;
+  --text-3xl--line-height: 1.12;
+  --text-4xl: 3.8125rem;
+  --text-4xl--line-height: 1.04;
+
+  --radius-control: 6px;
+  --radius-photo: 2px;
+}
+
+/* Page wrapper: 1200px content, 20px/32px gutters. */
+@utility wrap {
+  width: 100%;
+  max-width: calc(1200px + 2 * 2rem);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @variant md {
+    padding-inline: 2rem;
+  }
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5.5rem; /* sticky header */
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgb(11 59 85 / 0.12);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    background: var(--color-flour);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Arabic needs a little more line height for its ascenders and dots. */
+  :lang(ar) body {
+    line-height: 1.75;
+  }
+  h1,
+  h2,
+  h3 {
+    font-weight: 600;
+    text-wrap: balance;
+  }
+  h2,
+  h3 {
+    letter-spacing: -0.015em;
+  }
+  h1 {
+    letter-spacing: -0.02em;
+  }
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One focus style for the whole site: 3px, offset, high contrast on both surfaces. */
+  :focus-visible {
+    outline: 3px solid var(--color-silo);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-gold);
+  }
+}
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-control);
+    padding-inline: 1.5rem;
+    font-weight: 500;
+    line-height: 1;
+    touch-action: manipulation;
+    transition: background-color 150ms, color 150ms;
+  }
+  .btn-primary {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+  .btn-primary:hover {
+    background: var(--color-gold-600);
+  }
+  .btn-ghost-light {
+    border: 1px solid rgb(255 255 255 / 0.7);
+    color: #fff;
+  }
+  .btn-ghost-light:hover {
+    background: rgb(255 255 255 / 0.1);
+  }
+  .field {
+    display: block;
+    width: 100%;
+    border-radius: var(--radius-control);
+    border: 1px solid var(--color-steel-600);
+    background: var(--color-flour);
+    color: var(--color-ink);
+    padding: 0.75rem 0.875rem;
+    font-size: var(--text-base);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+  .link {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* The brand shelf: the page's one orchestrated moment (DESIGN.md §5.3).
+   Bags settle onto the shelf once, the first time it scrolls into view. */
+@media (prefers-reduced-motion: no-preference) {
+  .shelf-bag {
+    transition:
+      transform 620ms cubic-bezier(0.2, 0.75, 0.2, 1),
+      opacity 420ms ease-out;
+    transition-delay: calc(var(--i, 0) * 90ms);
+  }
+  .shelf[data-settled="false"] .shelf-bag {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+}
+
+/* Horizontal shelf on small screens: scrollable, without a scrollbar. */
+.shelf-scroll {
+  scrollbar-width: none;
+}
+.shelf-scroll::-webkit-scrollbar {
+  display: none;
+}

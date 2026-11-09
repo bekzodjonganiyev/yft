@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "title": "Yangiyer Flour Trading — first-grade wheat flour, 50 kg",
+    "description": "Yangiyer Flour Trading LLC is a family-owned flour mill in Yangiyer, Uzbekistan, operating since 1991. First-grade wheat flour in 50 kg bags, wholesale.",
+    "photosTitle": "Photos — Yangiyer Flour Trading"
+  },
+  "nav": {
+    "brands": "Brands",
+    "about": "Company",
+    "process": "Production",
+    "photos": "Photos",
+    "quote": "Request a price",
+    "menu": "Menu",
+    "close": "Close",
+    "language": "Language",
+    "skip": "Skip to content",
+    "home": "Yangiyer Flour Trading, home",
+    "main": "Main menu"
+  },
+  "hero": {
+    "title": "First-grade wheat flour in 50 kg bags",
+    "lead": "Our mill in Yangiyer has been producing flour for wholesale buyers since 1991.",
+    "ctaQuote": "Request a price",
+    "ctaCall": "Call us"
+  },
+  "brands": {
+    "title": "Our brands",
+    "lead": "Every brand is first-grade wheat flour in 50 kg bags.",
+    "grade": "First grade",
+    "pack": "50 kg bag",
+    "cta": "Request a price",
+    "ctaLabel": "Request a price for {{name}}",
+    "bagAlt": "50 kg bag of {{name}} flour"
+  },
+  "about": {
+    "title": "About the company",
+    "p1": "Yangiyer Flour Trading LLC is an independent, family-owned company. It has operated in Yangiyer, Syrdarya region, since 1991.",
+    "p2": "The mill was built to produce wheat flour from first to third grade. With more than 30 years in wholesale and production, we make sure buyers get their loads on time, every day.",
+    "specLabel": "Company facts",
+    "spec": {
+      "founded": "Founded",
+      "foundedValue": "1991",
+      "location": "Location",
+      "locationValue": "Yangiyer, Syrdarya region",
+      "product": "Product",
+      "productValue": "Wheat flour, grades 1–3",
+      "pack": "Packaging",
+      "packValue": "50 kg bag",
+      "standard": "Standard",
+      "standardValue": "GOST 26574-85",
+      "trade": "Sales",
+      "tradeValue": "Wholesale"
+    }
+  },
+  "process": {
+    "title": "Production",
+    "lead": "Wheat is tested in our laboratory on arrival, then goes to the mill. Finished flour is bagged and loaded onto rail wagons.",
+    "steps": {
+      "lab": {
+        "title": "Laboratory",
+        "text": "Incoming wheat is analysed in the laboratory."
+      },
+      "milling": {
+        "title": "Milling",
+        "text": "Grain is ground and sifted on an automated line."
+      },
+      "packing": {
+        "title": "Packing",
+        "text": "Flour is filled into 50 kg bags and sewn shut."
+      },
+      "loading": {
+        "title": "Loading",
+        "text": "Bags are stacked in the warehouse and loaded onto rail wagons."
+      }
+    }
+  },
+  "gallery": {
+    "title": "Inside the mill",
+    "all": "All photos"
+  },
+  "photos": {
+    "title": "Photos",
+    "lead": "{{count}} photos from the mill, the laboratory and the warehouse.",
+    "back": "Home",
+    "open": "Enlarge: {{alt}}",
+    "prev": "Previous photo",
+    "next": "Next photo",
+    "close": "Close",
+    "alt": {
+      "1": "Mill staff on the production floor",
+      "2": "The mill laboratory",
+      "3": "Lab technician checking a flour sample",
+      "4": "Engineer adjusting a roller mill",
+      "5": "Staff inspecting a roller mill",
+      "6": "Engineer and operator by a roller mill",
+      "7": "Operator at a roller mill control panel",
+      "8": "Sewing an AL HAYOT bag",
+      "9": "Monitoring screens in the control room",
+      "10": "The company office",
+      "11": "The milling line",
+      "12": "Flour sifting equipment",
+      "13": "Operator running the equipment",
+      "14": "Staff by the electrical control cabinets",
+      "15": "Flour samples in quality control",
+      "16": "Lab technician weighing a sample",
+      "17": "Lab technician analysing wheat grain",
+      "18": "Laboratory equipment",
+      "19": "A bag of AL HAYOT flour",
+      "20": "Packing flour into 50 kg bags",
+      "21": "The bag sewing line",
+      "22": "The company gate in the evening",
+      "23": "The Yangiyer Flour Trading gate",
+      "24": "The mill building and grain silos in the evening",
+      "25": "Rail wagons beside the mill",
+      "26": "Loading flour bags into a rail wagon"
+    }
+  },
+  "contact": {
+    "title": "Request a price",
+    "lead": "Tell us the brand and volume, and we will reply with a price and delivery terms. If it is urgent, call us.",
+    "phones": "Phone",
+    "phone": {
+      "uz": "Uzbekistan",
+      "kz": "Kazakhstan"
+    },
+    "email": "Email",
+    "address": "Address",
+    "addressValue": "Industrial zone, Yangiyer, Syrdarya region, Uzbekistan",
+    "mapTitle": "Yangiyer Flour Trading on the map",
+    "mapLink": "Open in Maps",
+    "form": {
+      "label": "Price request form",
+      "name": "Your name",
+      "phone": "Phone",
+      "phoneHint": "For example: +998 90 123 45 67",
+      "brand": "Brand",
+      "brandAny": "Not sure yet",
+      "quantity": "Quantity, bags",
+      "message": "Comment",
+      "messageHint": "Delivery address, timing or any other question",
+      "optional": "optional",
+      "submit": "Send request",
+      "sending": "Sending…",
+      "sentTitle": "Request sent",
+      "sentText": "We will call you back at {{phone}} shortly.",
+      "again": "Send another request",
+      "nameRequired": "Enter your name.",
+      "phoneInvalid": "Enter the full phone number, at least 9 digits.",
+      "failed": "The request did not go through. Check your connection and try again, or call {{phone}}."
+    }
+  },
+  "footer": {
+    "company": "Yangiyer Flour Trading LLC",
+    "since": "Since 1991",
+    "rights": "All rights reserved."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "There is nothing at this address. Continue from the home page.",
+    "home": "Go to the home page"
+  }
+}

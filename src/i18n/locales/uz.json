@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "title": "Yangiyer Flour Trading — birinchi navli bug‘doy uni, 50 kg",
+    "description": "“Yangiyer Flour Trading” MChJ — 1991-yildan beri Yangiyer shahrida ishlayotgan oilaviy un tegirmoni. Birinchi navli bug‘doy uni 50 kg qoplarda, ulgurji savdo.",
+    "photosTitle": "Fotolar — Yangiyer Flour Trading"
+  },
+  "nav": {
+    "brands": "Brendlar",
+    "about": "Korxona",
+    "process": "Ishlab chiqarish",
+    "photos": "Fotolar",
+    "quote": "Narx so‘rash",
+    "menu": "Menyu",
+    "close": "Yopish",
+    "language": "Til",
+    "skip": "Asosiy qismga o‘tish",
+    "home": "Yangiyer Flour Trading, bosh sahifa",
+    "main": "Asosiy menyu"
+  },
+  "hero": {
+    "title": "Birinchi navli bug‘doy uni, 50 kg qoplarda",
+    "lead": "Yangiyer shahridagi tegirmonimiz 1991-yildan beri ulgurji xaridorlar uchun un ishlab chiqaradi.",
+    "ctaQuote": "Narx so‘rash",
+    "ctaCall": "Qo‘ng‘iroq qilish"
+  },
+  "brands": {
+    "title": "Brendlarimiz",
+    "lead": "Barcha brendlar birinchi navli bug‘doy uni, 50 kg qoplarda.",
+    "grade": "Birinchi nav",
+    "pack": "50 kg qop",
+    "cta": "Narxini so‘rash",
+    "ctaLabel": "{{name}} narxini so‘rash",
+    "bagAlt": "{{name}} unining 50 kg qopi"
+  },
+  "about": {
+    "title": "Korxona haqida",
+    "p1": "“Yangiyer Flour Trading” MChJ mustaqil oilaviy korxona. 1991-yildan beri Sirdaryo viloyati, Yangiyer shahrida ishlaydi.",
+    "p2": "Tegirmon birinchi navdan uchinchi navgacha bug‘doy uni ishlab chiqarish uchun qurilgan. Ulgurji savdo va ishlab chiqarishda 30 yildan ortiq tajribamiz bor, xaridorlarimiz yukni har kuni o‘z vaqtida oladi.",
+    "specLabel": "Korxona ma’lumotlari",
+    "spec": {
+      "founded": "Tashkil topgan",
+      "foundedValue": "1991",
+      "location": "Joylashuv",
+      "locationValue": "Yangiyer, Sirdaryo viloyati",
+      "product": "Mahsulot",
+      "productValue": "Bug‘doy uni, 1–3 nav",
+      "pack": "Qadoq",
+      "packValue": "50 kg qop",
+      "standard": "Standart",
+      "standardValue": "GOST 26574-85",
+      "trade": "Savdo turi",
+      "tradeValue": "Ulgurji"
+    }
+  },
+  "process": {
+    "title": "Ishlab chiqarish",
+    "lead": "Bug‘doy qabul qilinganda laboratoriyada tekshiriladi, keyin tegirmonga tushadi. Tayyor un qoplanib, vagonlarga yuklanadi.",
+    "steps": {
+      "lab": {
+        "title": "Laboratoriya",
+        "text": "Qabul qilingan bug‘doy laboratoriyada tahlil qilinadi."
+      },
+      "milling": {
+        "title": "Tegirmon",
+        "text": "Don avtomatlashtirilgan liniyada maydalanadi va elanadi."
+      },
+      "packing": {
+        "title": "Qadoqlash",
+        "text": "Un 50 kg li qoplarga solinib, tikiladi."
+      },
+      "loading": {
+        "title": "Yuklash",
+        "text": "Qoplar omborda taxlanadi va temir yo‘l vagonlariga yuklanadi."
+      }
+    }
+  },
+  "gallery": {
+    "title": "Tegirmondan fotolar",
+    "all": "Barcha fotolar"
+  },
+  "photos": {
+    "title": "Fotolar",
+    "lead": "Tegirmon, laboratoriya va ombordan {{count}} ta foto.",
+    "back": "Bosh sahifa",
+    "open": "Kattalashtirish: {{alt}}",
+    "prev": "Oldingi foto",
+    "next": "Keyingi foto",
+    "close": "Yopish",
+    "alt": {
+      "1": "Tegirmon xodimlari ishlab chiqarish sexida",
+      "2": "Tegirmon laboratoriyasi",
+      "3": "Laborant un namunasini tekshirmoqda",
+      "4": "Muhandis tegirmon stanogini sozlamoqda",
+      "5": "Xodimlar tegirmon stanogini tekshirmoqda",
+      "6": "Muhandis va operator stanok yonida",
+      "7": "Operator stanok boshqaruv panelida",
+      "8": "AL HAYOT qopini tikish",
+      "9": "Boshqaruv xonasidagi kuzatuv ekranlari",
+      "10": "Korxona ofisi",
+      "11": "Tegirmon liniyasi",
+      "12": "Un elash uskunalari",
+      "13": "Operator uskunani boshqarmoqda",
+      "14": "Xodimlar elektr boshqaruv shkaflari yonida",
+      "15": "Un namunalari sifat tekshiruvida",
+      "16": "Laborant namunani tortmoqda",
+      "17": "Laborant bug‘doy donini tahlil qilmoqda",
+      "18": "Laboratoriya uskunalari",
+      "19": "AL HAYOT unining qopi",
+      "20": "Unni 50 kg qoplarga qadoqlash",
+      "21": "Qoplarni tikish liniyasi",
+      "22": "Korxona darvozasi kechqurun",
+      "23": "Yangiyer Flour Trading darvozasi",
+      "24": "Tegirmon binosi va don siloslari kechqurun",
+      "25": "Tegirmon yonidagi temir yo‘l vagonlari",
+      "26": "Un qoplarini vagonga yuklash"
+    }
+  },
+  "contact": {
+    "title": "Narx so‘rash",
+    "lead": "Brend va kerakli hajmni yozing, biz narx va yetkazib berish shartlarini aytamiz. Shoshilinch bo‘lsa, qo‘ng‘iroq qiling.",
+    "phones": "Telefon",
+    "phone": {
+      "uz": "O‘zbekiston",
+      "kz": "Qozog‘iston"
+    },
+    "email": "Email",
+    "address": "Manzil",
+    "addressValue": "O‘zbekiston, Sirdaryo viloyati, Yangiyer shahri, sanoat zonasi",
+    "mapTitle": "Yangiyer Flour Trading xaritada",
+    "mapLink": "Xaritada ochish",
+    "form": {
+      "label": "Narx so‘rash formasi",
+      "name": "Ismingiz",
+      "phone": "Telefon",
+      "phoneHint": "Masalan: +998 90 123 45 67",
+      "brand": "Brend",
+      "brandAny": "Hali tanlamadim",
+      "quantity": "Hajm, qop",
+      "message": "Izoh",
+      "messageHint": "Yetkazish manzili, muddat yoki boshqa savol",
+      "optional": "ixtiyoriy",
+      "submit": "So‘rov yuborish",
+      "sending": "Yuborilmoqda…",
+      "sentTitle": "So‘rov yuborildi",
+      "sentText": "Tez orada {{phone}} raqamiga qo‘ng‘iroq qilamiz.",
+      "again": "Yana so‘rov yuborish",
+      "nameRequired": "Ismingizni yozing.",
+      "phoneInvalid": "Telefon raqamni to‘liq yozing, kamida 9 ta raqam.",
+      "failed": "So‘rov yuborilmadi. Internetni tekshirib, qayta urinib ko‘ring yoki {{phone}} raqamiga qo‘ng‘iroq qiling."
+    }
+  },
+  "footer": {
+    "company": "“Yangiyer Flour Trading” MChJ",
+    "since": "1991-yildan beri",
+    "rights": "Barcha huquqlar himoyalangan."
+  },
+  "notFound": {
+    "title": "Sahifa topilmadi",
+    "text": "Bu manzilda sahifa yo‘q. Bosh sahifadan davom eting.",
+    "home": "Bosh sahifaga qaytish"
+  }
+}
