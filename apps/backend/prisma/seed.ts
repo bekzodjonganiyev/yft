@@ -107,13 +107,14 @@ async function main() {
   // 3. Gallery photos are not seeded with stock images any more —
   //    run `pnpm --filter @yft/backend assets:import -- --source <master checkout>` to import the real ones.
 
-  // 4. Seed Partners
+  // 4. Seed Partners — no logos: the old backend.tkti.uz files are gone (502, never archived).
+  //    The site shows the partner name until a logo is uploaded in the admin.
   const partners = [
-    { name: 'O\'zdonmahsulot AK', logoUrl: 'https://backend.tkti.uz/uploads/file-1680953905268.jpg', websiteUrl: '#' },
-    { name: 'Agro Industrial Holding', logoUrl: 'https://backend.tkti.uz/uploads/file-1680953888366.jpg', websiteUrl: '#' },
-    { name: 'Central Asia Grain Export', logoUrl: 'https://backend.tkti.uz/uploads/file-1680953777534.jpg', websiteUrl: '#' },
-    { name: 'Bukhara Bakery Group', logoUrl: 'https://backend.tkti.uz/uploads/file-1680953754646.jpg', websiteUrl: '#' },
-    { name: 'Tashkent Mill Logistics', logoUrl: 'https://backend.tkti.uz/uploads/file-1680953713364.jpg', websiteUrl: '#' },
+    { name: 'O\'zdonmahsulot AK', logoUrl: '', websiteUrl: '#' },
+    { name: 'Agro Industrial Holding', logoUrl: '', websiteUrl: '#' },
+    { name: 'Central Asia Grain Export', logoUrl: '', websiteUrl: '#' },
+    { name: 'Bukhara Bakery Group', logoUrl: '', websiteUrl: '#' },
+    { name: 'Tashkent Mill Logistics', logoUrl: '', websiteUrl: '#' },
   ];
 
   for (const p of partners) {

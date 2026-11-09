@@ -87,14 +87,20 @@ export function PartnersFeature() {
                 <TableRow key={p.id}>
                   <TableCell>
                     <div className='flex h-12 w-24 items-center justify-center overflow-hidden rounded border bg-white p-1'>
-                      <img
-                        src={mediaUrl(p.logoUrl)}
-                        alt=''
-                        className='max-h-full max-w-full object-contain'
-                        onError={(e) =>
-                          (e.currentTarget.style.visibility = 'hidden')
-                        }
-                      />
+                      {p.logoUrl ? (
+                        <img
+                          src={mediaUrl(p.logoUrl)}
+                          alt=''
+                          className='max-h-full max-w-full object-contain'
+                          onError={(e) =>
+                            (e.currentTarget.style.visibility = 'hidden')
+                          }
+                        />
+                      ) : (
+                        <span className='text-[10px] text-muted-foreground'>
+                          Logo yo‘q
+                        </span>
+                      )}
                     </div>
                     {/^https?:/.test(p.logoUrl) && (
                       <p className='mt-1 text-[10px] text-amber-600'>

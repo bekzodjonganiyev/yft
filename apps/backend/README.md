@@ -88,7 +88,7 @@ Copies the logo and the wheat photos into storage and creates the hero banners, 
 `asset.*` settings. The rest of that site's content (banners, news, vacancies, products, partners, gallery)
 was served by `coral-app-bsinx.ondigitalocean.app`, which no longer exists — it has to be re-entered in the
 admin panel. The placeholder partner logos in that branch (Nike / "logoipsum") are not imported.
-Flags: `--skip-remote`, `--localize-db` (copy any other http(s) image URL in the DB), `--force`.
+Flags: `--skip-remote`, `--localize-db` (copy any other http(s) image URL in the DB), `--clear-dead` (with `--localize-db`: blank partner logos whose source is gone, so the site shows the name until a new logo is uploaded), `--force`.
 The script is idempotent.
 
 ### Dashboard Analytics

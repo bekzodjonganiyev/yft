@@ -17,7 +17,8 @@
  * Usage (from repo root):
  *   git worktree add ../yft-version_2_1_0 version_2_1_0     # once
  *   pnpm --filter @yft/backend assets:import -- --source ../../../yft-version_2_1_0
- *   flags: --skip-remote, --localize-db (copy any other http(s) image URL in the DB), --force
+ *   flags: --skip-remote, --localize-db (copy any other http(s) image URL in the DB),
+ *          --clear-dead (with --localize-db: blank partner logos that cannot be downloaded), --force
  */
 import fs from 'fs/promises';
 import path from 'path';
@@ -35,6 +36,7 @@ const option = (name: string) => {
 const SOURCE = option('source');
 const SKIP_REMOTE = flag('skip-remote');
 const LOCALIZE_DB = flag('localize-db');
+const CLEAR_DEAD = flag('clear-dead');
 const FORCE = flag('force');
 
 type Target =
@@ -237,6 +239,10 @@ async function localizeDatabase() {
     if (m) {
       await prisma.partner.update({ where: { id: p.id }, data: { logoUrl: m.url } });
       stats.linked++;
+    } else if (CLEAR_DEAD) {
+      // The site falls back to the partner name; the admin flags it for a new upload.
+      await prisma.partner.update({ where: { id: p.id }, data: { logoUrl: '' } });
+      console.warn(`    cleared logo of "${p.name}"`);
     }
   }
   for (const s of await prisma.setting.findMany({ where: { key: { startsWith: 'asset.' }, value: { startsWith: 'http' } } })) {
@@ -250,7 +256,7 @@ async function localizeDatabase() {
 
 async function main() {
   if (!SOURCE) {
-    console.error('Usage: assets:import -- --source <path-to-version_2_1_0-checkout> [--skip-remote] [--localize-db] [--force]');
+    console.error('Usage: assets:import -- --source <path-to-version_2_1_0-checkout> [--skip-remote] [--localize-db [--clear-dead]] [--force]');
     process.exit(1);
   }
   await fs.access(path.resolve(SOURCE, IMG)).catch(() => {
