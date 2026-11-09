@@ -2,7 +2,7 @@
 
 Ushbu monorepo loyihada barcha 3 ta qism (User, Admin, Backend) **pnpm monorepo** arxitekturasida bitta papkaga birlashtirilgan:
 
-- `apps/user`: Next.js 14 (App Router) + Tailwind CSS + 4 tilli i18n. Dizayn master branchdagi eski saytdan ko'chirilgan, barcha kontent backenddan olinadi.
+- `apps/user`: Next.js 14 (App Router) + Tailwind CSS + 4 tilli i18n (uz, ru, en, fa). Dizayn `version_2_1_0` branchidagi saytdan ko'chirilgan, barcha kontent backenddan olinadi.
 - `apps/admin`: [satnaing/shadcn-admin](https://github.com/satnaing/shadcn-admin) andozasi asosida Vite + React 19 + Tailwind CSS + TanStack Router + Radix UI boshqaruv paneli.
 - `apps/backend`: Express.js + TypeScript + PostgreSQL + Prisma ORM v6 + JWT + Multer fayl yuklash tizimi.
 
@@ -28,7 +28,7 @@ Prisma klientini generatsiya qilish va boshlang'ich ma'lumotlarni to'ldirish (se
 pnpm run prisma:generate
 pnpm --filter @yft/backend prisma:push   # yangi `media` jadvali uchun
 pnpm run prisma:seed
-pnpm --filter @yft/backend assets:import -- --source ../../../yft-master
+pnpm --filter @yft/backend assets:import -- --source ../../../yft-version_2_1_0
 ```
 
 > **Default Admin Hisobi:**
@@ -87,16 +87,17 @@ yft-front/
 ## 🌐 Xususiyatlar va Imkoniyatlar
 
 ### User (Next.js 14)
-- **Dizayn**: master branchdagi saytdan ko'chirilgan — sariq top-bar, oq sticky header, video banner, "Biz haqimizda" + video modal, brendlar karuseli, galereya (justified rows + lightbox), hamkorlar (parallax fon), kontakt formasi, to'q ko'k footer va xarita. Ranglar: `navy #082A58`, `gold #FFBC13`, `flame #F06D06`.
-- **Kontent backenddan**: mahsulotlar, fotolar, hamkorlar va `settings` (telefon, email, `asset.*` rasmlar, `social.*` havolalar) server tomonda olinadi va har 60 soniyada yangilanadi. Backend ishlamasa sahifa statik fallback rasmlar bilan ochiladi.
-- **4 tilli interfeys**: `uz`, `ru`, `en`, `ar` (RTL).
-- **Murojaat formasi**: `POST /api/inquiries` (fayl biriktirish bilan), xatolar foydalanuvchiga ko'rsatiladi.
+- **Dizayn**: `version_2_1_0` branchidagi saytdan ko'chirilgan — shaffof navbar, banner slayderi va ustidagi 3 ta "motto" kartochka, "Biz haqimizda" + video, fotogalereya, yangiliklar, mahsulotlar slayderi, vakansiyalar, FAQ, hamkorlar, kontakt formasi + xarita, to'q-firuza footer. Ranglar: `primary #EEAD0F`, `secondary #063F58`; shrift IBM Plex Sans.
+- **Sahifalar**: `/`, `/photos`, `/news`, `/news/[id]`, `/vacancies`, `/vacancies/[id]`.
+- **Kontent backenddan** (60 soniyada yangilanadi): bannerlar, motto/FAQ, yangiliklar, vakansiyalar, mahsulotlar, fotolar, hamkorlar va `settings`. Bo'sh bo'limlar yashiriladi.
+- **4 til**: `uz`, `ru`, `en`, `fa` (fors tili, RTL).
 - `NEXT_PUBLIC_API_URL` (`apps/user/.env.example`) — backend manzili.
 
 ### Admin (Shadcn-Admin)
 - Haqiqiy login (`/api/auth/login`), himoyalangan route'lar, 401 da avtomatik chiqish.
+- Bannerlar, matn bloklari (motto, FAQ), yangiliklar va vakansiyalar (qoralama / e'lon qilingan).
 - Bosh sahifa: `/api/stats` dan sonlar, so'nggi murojaatlar va mahsulotlar.
-- Mahsulotlar, foto galereya va hamkorlar: to'liq CRUD, rasm yuklash (preview bilan), 4 tilli maydonlar.
+- Mahsulotlar, foto galereya va hamkorlar: to'liq CRUD, rasm yuklash (preview bilan), 4 tilli maydonlar (uz, ru, en, fa).
 - Sayt sozlamalari: telefon, email, manzil, ijtimoiy tarmoqlar, video/xarita havolalari va bo'lim rasmlari (`asset.*`).
 - Murojaatlar: holat (`NEW`, `IN_PROGRESS`, `RESOLVED`), biriktirilgan faylni ochish, o'chirish.
 
@@ -104,4 +105,4 @@ yft-front/
 - Xavfsiz JWT autentifikatsiya va bcrypt parol shifrlash.
 - Prisma v6 ORM bilan to'liq tiplashgan PostgreSQL modellari.
 - Fayl saqlash: `media` jadvali, magic-byte tekshiruvi, SHA-256 bo'yicha dedup, o'lchamlarni avtomatik aniqlash, ishlatilmay qolgan fayllarni o'chirish (batafsil: `apps/backend/README.md`).
-- Master saytidagi rasmlarni import qilish: `pnpm --filter @yft/backend assets:import -- --source <master checkout>`.
+- Eski sayt (`version_2_1_0`) rasmlarini import qilish: `pnpm --filter @yft/backend assets:import -- --source <version_2_1_0 checkout>`.

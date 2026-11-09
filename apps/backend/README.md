@@ -44,6 +44,13 @@ Production-ready backend API service for Yangiyer Flour Trading platform built w
 - `PATCH /api/inquiries/:id/status` - Update inquiry status
 - `DELETE /api/inquiries/:id` - Remove inquiry
 
+### Site content (version_2_1_0 design)
+- `GET /api/banners[?all=true]` · `POST` / `PUT /api/banners/:id` (field `image`) · `DELETE` — hero slider
+- `GET /api/posts?type=NEWS|VACANCY[&limit=4][&all=true]` · `GET /api/posts/:id` · `POST` / `PUT` (field `image`) · `DELETE` — news & vacancies (drafts hidden unless `all=true`)
+- `GET /api/info-items?kind=MOTTO|FAQ` · `POST` / `PUT` (JSON) · `DELETE` — motto cards and FAQ
+- All text fields come in four languages: `…Uz`, `…Ru`, `…En`, `…Fa` (Persian). Product/photo `…Fa` fields are
+  stored in the former `…Ar` columns (`@map`), so no data migration is needed.
+
 ### Media (file storage)
 - `GET /api/media` - Media library with `inUse` flag (auth)
 - `POST /api/media` - Upload an image, field `file` (auth). Same as `POST /api/upload`
@@ -56,7 +63,7 @@ Production-ready backend API service for Yangiyer Flour Trading platform built w
 
 ## How files are stored
 
-All uploads (product images, gallery photos, partner logos, site assets, inquiry attachments) go through
+All uploads (banners, post images, product images, gallery photos, partner logos, site assets, inquiry attachments) go through
 `src/services/media.service.ts`:
 
 1. Multer keeps the upload in memory (max 15 MB) — nothing touches disk before validation.
@@ -65,23 +72,22 @@ All uploads (product images, gallery photos, partner logos, site assets, inquiry
 3. The SHA-256 hash names the file (`uploads/img-<hash>.jpg`) and is unique in the `media` table, so the
    same image uploaded twice is stored once.
 4. Image width/height are saved (the gallery uses them for its layout).
-5. When a product/photo/partner/setting/inquiry is deleted or its image replaced, `releaseMedia()` removes
+5. When a banner/post/product/photo/partner/setting/inquiry is deleted or its image replaced, `releaseMedia()` removes
    the old file if nothing else references it.
 
 Files are served from `/uploads/*` with long-lived immutable caching and `X-Content-Type-Options: nosniff`.
 
-### Importing the images of the old (master branch) site
+### Importing the images of the previous site (branch `version_2_1_0`)
 
 ```bash
-git worktree add ../yft-master master        # once, if you don't have a master checkout
-pnpm --filter @yft/backend assets:import -- --source ../../../yft-master
+git worktree add ../yft-version_2_1_0 version_2_1_0   # once
+pnpm --filter @yft/backend assets:import -- --source ../../../yft-version_2_1_0
 ```
 
-Copies the logo, wheat photos, contact illustration and section backgrounds into storage, creates gallery
-photos and fills `asset.*` settings. It also tries the remote images the old site used (product brand
-images, partner logos). As of Nov 2026 those hosts are offline (`backend.tkti.uz` → 502,
-`new-tkti-back.herokuapp.com` → 404), so those steps are reported as failed and the section backgrounds
-fall back to local photos — upload the real logos/product images from the admin panel instead.
+Copies the logo and the wheat photos into storage and creates the hero banners, gallery photos and
+`asset.*` settings. The rest of that site's content (banners, news, vacancies, products, partners, gallery)
+was served by `coral-app-bsinx.ondigitalocean.app`, which no longer exists — it has to be re-entered in the
+admin panel. The placeholder partner logos in that branch (Nike / "logoipsum") are not imported.
 Flags: `--skip-remote`, `--localize-db` (copy any other http(s) image URL in the DB), `--force`.
 The script is idempotent.
 

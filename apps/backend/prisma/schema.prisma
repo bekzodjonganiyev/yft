@@ -35,11 +35,11 @@ model Product {
   titleUz     String
   titleRu     String
   titleEn     String
-  titleAr     String   @default("")
+  titleFa     String   @default("") @map("titleAr") // 4th language is Persian (fa)
   descUz      String
   descRu      String
   descEn      String
-  descAr      String   @default("")
+  descFa      String   @default("") @map("descAr")
   category    String   // Premium, Grade 1, Grade 2, Bran, Grain
   packaging   String   // e.g. "50 kg, 25 kg, 10 kg, 5 kg"
   gluten      String?  // e.g. "28-30%"
@@ -60,7 +60,7 @@ model Photo {
   titleUz   String?
   titleRu   String?
   titleEn   String?
-  titleAr   String?
+  titleFa   String?  @map("titleAr")
   category  String   @default("production") // production, laboratory, factory, team
   width     Int      @default(1080)
   height    Int      @default(720)
@@ -69,6 +69,75 @@ model Photo {
   updatedAt DateTime @updatedAt
 
   @@map("photos")
+}
+
+/// Hero slider on the home page
+model Banner {
+  id        String   @id @default(uuid())
+  imageUrl  String
+  titleUz   String   @default("")
+  titleRu   String   @default("")
+  titleEn   String   @default("")
+  titleFa   String   @default("")
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("banners")
+}
+
+enum PostType {
+  NEWS
+  VACANCY
+}
+
+/// News articles and job vacancies (cards on the home page + /news, /vacancies pages)
+model Post {
+  id          String   @id @default(uuid())
+  type        PostType
+  imageUrl    String   @default("")
+  titleUz     String
+  titleRu     String   @default("")
+  titleEn     String   @default("")
+  titleFa     String   @default("")
+  /// Plain text; blank lines separate paragraphs
+  bodyUz      String   @default("")
+  bodyRu      String   @default("")
+  bodyEn      String   @default("")
+  bodyFa      String   @default("")
+  date        DateTime @default(now())
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([type, isPublished, date])
+  @@map("posts")
+}
+
+enum InfoKind {
+  MOTTO
+  FAQ
+}
+
+/// Short text blocks: the 3 "motto" cards under the hero and the FAQ accordion
+model InfoItem {
+  id        String   @id @default(uuid())
+  kind      InfoKind
+  titleUz   String
+  titleRu   String   @default("")
+  titleEn   String   @default("")
+  titleFa   String   @default("")
+  bodyUz    String   @default("")
+  bodyRu    String   @default("")
+  bodyEn    String   @default("")
+  bodyFa    String   @default("")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([kind, order])
+  @@map("info_items")
 }
 
 model Partner {

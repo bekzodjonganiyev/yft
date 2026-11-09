@@ -1,49 +1,19 @@
 // Data access for the public site. Everything is read from the backend (apps/backend);
-// when it is unreachable the page still renders with the static fallbacks below.
+// when it is unreachable the pages still render (empty sections are hidden).
 
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/+$/, '');
 
-export interface Product {
-  id: string;
-  titleUz: string;
-  titleRu: string;
-  titleEn: string;
-  titleAr: string;
-  descUz: string;
-  descRu: string;
-  descEn: string;
-  descAr: string;
-  imageUrl: string;
-  order: number;
-}
+type Localized<K extends string> = Record<`${K}${'Uz' | 'Ru' | 'En' | 'Fa'}`, string>;
 
-export interface Photo {
-  id: string;
-  photoUrl: string;
-  titleUz: string | null;
-  titleRu: string | null;
-  titleEn: string | null;
-  titleAr: string | null;
-  category: string;
-  width: number;
-  height: number;
-}
-
-export interface Partner {
-  id: string;
-  name: string;
-  logoUrl: string;
-  websiteUrl: string | null;
-}
-
+export type Product = Localized<'title'> & Localized<'desc'> & { id: string; imageUrl: string; order: number };
+export type Photo = Partial<Localized<'title'>> & { id: string; photoUrl: string; width: number; height: number };
+export type Partner = { id: string; name: string; logoUrl: string; websiteUrl: string | null };
+export type Banner = Localized<'title'> & { id: string; imageUrl: string };
+export type InfoItem = Localized<'title'> & Localized<'body'> & { id: string; kind: 'MOTTO' | 'FAQ' };
+export type PostType = 'NEWS' | 'VACANCY';
+export type Post = Localized<'title'> &
+  Localized<'body'> & { id: string; type: PostType; imageUrl: string; date: string };
 export type Settings = Record<string, string>;
-
-export interface SiteData {
-  products: Product[];
-  photos: Photo[];
-  partners: Partner[];
-  settings: Settings;
-}
 
 /** Turn a backend path (`/uploads/x.jpg`) into an absolute URL. Absolute URLs pass through. */
 export const assetUrl = (path: string | null | undefined, fallback = ''): string => {
@@ -53,7 +23,7 @@ export const assetUrl = (path: string | null | undefined, fallback = ''): string
   return path; // e.g. /images/... from this app's public folder
 };
 
-async function get<T>(path: string, fallback: T): Promise<T> {
+export async function api<T>(path: string, fallback: T): Promise<T> {
   try {
     const res = await fetch(`${API_URL}/api${path}`, { next: { revalidate: 60 } });
     if (!res.ok) return fallback;
@@ -64,34 +34,45 @@ async function get<T>(path: string, fallback: T): Promise<T> {
   }
 }
 
-export async function getSiteData(): Promise<SiteData> {
-  const [products, photos, partners, settings] = await Promise.all([
-    get<Product[]>('/products?isFeatured=true', []),
-    get<Photo[]>('/photos', []),
-    get<Partner[]>('/partners', []),
-    get<Settings>('/settings', {}),
+export const getSettings = () => api<Settings>('/settings', {});
+export const getPosts = (type: PostType, limit?: number) =>
+  api<Post[]>(`/posts?type=${type}${limit ? `&limit=${limit}` : ''}`, []);
+export const getPost = (id: string) => api<Post | null>(`/posts/${encodeURIComponent(id)}`, null);
+export const getPhotos = () => api<Photo[]>('/photos', []);
+
+export async function getHomeData() {
+  const [banners, mottos, faqs, photos, news, products, vacancies, partners, settings] = await Promise.all([
+    api<Banner[]>('/banners', []),
+    api<InfoItem[]>('/info-items?kind=MOTTO', []),
+    api<InfoItem[]>('/info-items?kind=FAQ', []),
+    getPhotos(),
+    getPosts('NEWS', 4),
+    api<Product[]>('/products?isFeatured=true', []),
+    getPosts('VACANCY', 3),
+    api<Partner[]>('/partners', []),
+    getSettings(),
   ]);
-  return { products, photos, partners, settings };
+  return { banners, mottos, faqs, photos, news, products, vacancies, partners, settings };
 }
 
 /** Values used when a setting is missing (backend down or not seeded yet). */
 export const DEFAULTS = {
-  phone: '+998 71 875 64 56',
+  phone: '+998 90 979 50 55',
   email: 'Yangiyerflour@gmail.com',
+  website: 'https://yangiyerflourtrading.uz',
   aboutVideo: 'https://www.youtube.com/embed/G0zm9TybxpU',
   mapEmbed:
-    'https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2997.971617605521!2d69.2168139758326!3d41.287722171312694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDHCsDE3JzE1LjgiTiA2OcKwMTMnMDkuOCJF!5e0!3m2!1sru!2s!4v1682497109753!5m2!1sru!2s',
+    'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1181.1895909939317!2d69.21878063797728!3d41.2875452257138!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8be0fdfbfecd%3A0x6c5afd84eb8438a6!2sLLC%20%22YANGIYER%20FLOUR%20TRADING%22!5e0!3m2!1suz!2s!4v1684500868007!5m2!1suz!2s',
   logo: '/images/logo.png',
-  heroPoster: '/images/bg.jpg',
-  aboutBg: '/images/bg1.jpg',
-  partnersBg: '/images/bg2.jpg',
-  contactImage: '/images/5138237.jpg',
+  aboutBg: '/images/bugdoy.jpg',
 };
 
-export const SOCIAL_KEYS = ['facebook', 'telegram', 'instagram', 'youtube'] as const;
+export const SOCIAL_KEYS = ['telegram', 'instagram', 'facebook', 'youtube', 'twitter'] as const;
 export type SocialKey = (typeof SOCIAL_KEYS)[number];
 
 export const socialLinks = (settings: Settings) =>
   SOCIAL_KEYS.map((key) => ({ key, href: settings[`social.${key}`] })).filter(
     (s): s is { key: SocialKey; href: string } => !!s.href
   );
+
+export const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, '')}`;

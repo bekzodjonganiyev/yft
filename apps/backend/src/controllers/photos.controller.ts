@@ -14,7 +14,7 @@ const toDto = (p: Photo) => ({
   titleUz: p.titleUz,
   titleRu: p.titleRu,
   titleEn: p.titleEn,
-  titleAr: p.titleAr,
+  titleFa: p.titleFa,
   category: p.category,
   width: p.width,
   height: p.height,
@@ -40,7 +40,7 @@ export const getPhotos = async (req: Request, res: Response): Promise<void> => {
 
 export const addPhoto = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { width, height, date, titleUz, titleRu, titleEn, titleAr, category, photoUrl } = req.body;
+    const { width, height, date, titleUz, titleRu, titleEn, titleFa, category, photoUrl } = req.body;
 
     if (!req.file && !photoUrl) {
       res.status(400).json({ success: false, message: 'Photo file or photoUrl is required' });
@@ -56,7 +56,7 @@ export const addPhoto = async (req: Request, res: Response): Promise<void> => {
         titleUz: titleUz || '',
         titleRu: titleRu || '',
         titleEn: titleEn || '',
-        titleAr: titleAr || '',
+        titleFa: titleFa || '',
         category: category || 'production',
         // Real dimensions from the uploaded file win over whatever the client typed.
         width: media?.width ?? toInt(width, 1080),
@@ -85,7 +85,7 @@ export const updatePhoto = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
-    const { titleUz, titleRu, titleEn, titleAr, category, date, photoUrl, width, height } = req.body;
+    const { titleUz, titleRu, titleEn, titleFa, category, date, photoUrl, width, height } = req.body;
     const media = await storeUpload(req.file);
     const nextUrl: string | undefined = media?.url ?? photoUrl;
 
@@ -95,7 +95,7 @@ export const updatePhoto = async (req: Request, res: Response): Promise<void> =>
         ...(titleUz !== undefined && { titleUz }),
         ...(titleRu !== undefined && { titleRu }),
         ...(titleEn !== undefined && { titleEn }),
-        ...(titleAr !== undefined && { titleAr }),
+        ...(titleFa !== undefined && { titleFa }),
         ...(category !== undefined && { category }),
         ...(date !== undefined && { date: new Date(date) }),
         ...(nextUrl !== undefined && { photoUrl: nextUrl }),

@@ -2,6 +2,9 @@
 @import 'tw-animate-css';
 @import './theme.css';
 
+/* Font classes are added at runtime by FontProvider (`font-${name}`), so generate them explicitly. */
+@source inline('font-inter font-manrope font-system');
+
 @custom-variant dark (&:is(.dark *));
 
 @layer base {

@@ -50,18 +50,18 @@ const LANGS = [
   { code: 'Uz', label: "O'zbekcha", required: true },
   { code: 'Ru', label: 'Русский', required: true },
   { code: 'En', label: 'English', required: true },
-  { code: 'Ar', label: 'العربية', required: false },
+  { code: 'Fa', label: 'فارسی', required: false },
 ] as const
 
 type FormValues = {
   titleUz: string
   titleRu: string
   titleEn: string
-  titleAr: string
+  titleFa: string
   descUz: string
   descRu: string
   descEn: string
-  descAr: string
+  descFa: string
   category: string
   packaging: string
   gluten: string
@@ -75,11 +75,11 @@ const emptyForm = (order: number): FormValues => ({
   titleUz: '',
   titleRu: '',
   titleEn: '',
-  titleAr: '',
+  titleFa: '',
   descUz: '',
   descRu: '',
   descEn: '',
-  descAr: '',
+  descFa: '',
   category: 'FLOUR_FIRST',
   packaging: '50 kg',
   gluten: '',
@@ -93,11 +93,11 @@ const fromProduct = (p: Product): FormValues => ({
   titleUz: p.titleUz,
   titleRu: p.titleRu,
   titleEn: p.titleEn,
-  titleAr: p.titleAr,
+  titleFa: p.titleFa,
   descUz: p.descUz,
   descRu: p.descRu,
   descEn: p.descEn,
-  descAr: p.descAr,
+  descFa: p.descFa,
   category: p.category,
   packaging: p.packaging,
   gluten: p.gluten ?? '',
@@ -351,7 +351,7 @@ function ProductDialog({
                   </Label>
                   <Input
                     id={`title${l.code}`}
-                    dir={l.code === 'Ar' ? 'rtl' : undefined}
+                    dir={l.code === 'Fa' ? 'rtl' : undefined}
                     required={l.required}
                     maxLength={200}
                     value={values[`title${l.code}`]}
@@ -362,7 +362,7 @@ function ProductDialog({
                   <Label htmlFor={`desc${l.code}`}>Tavsif ({l.label})</Label>
                   <Textarea
                     id={`desc${l.code}`}
-                    dir={l.code === 'Ar' ? 'rtl' : undefined}
+                    dir={l.code === 'Fa' ? 'rtl' : undefined}
                     rows={3}
                     maxLength={2000}
                     value={values[`desc${l.code}`]}

@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
-import { dictionaries, type Dictionary, type Locale } from '@/lib/i18n';
+import { dictionaries, isRtl, type Dictionary, type Locale } from '@/lib/i18n';
 
 interface LanguageContextValue {
   locale: Locale;
@@ -11,7 +11,7 @@ interface LanguageContextValue {
 }
 
 const STORAGE_KEY = 'yft_locale';
-const isLocale = (v: unknown): v is Locale => v === 'uz' || v === 'ru' || v === 'en' || v === 'ar';
+const isLocale = (v: unknown): v is Locale => v === 'uz' || v === 'ru' || v === 'en' || v === 'fa';
 
 const LanguageContext = createContext<LanguageContextValue>({
   locale: 'uz',
@@ -34,7 +34,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = locale;
-    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = isRtl(locale) ? 'rtl' : 'ltr';
   }, [locale]);
 
   const setLocale = useCallback((next: Locale) => {
@@ -48,7 +48,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   return (
     <LanguageContext.Provider
-      value={{ locale, setLocale, t: dictionaries[locale], dir: locale === 'ar' ? 'rtl' : 'ltr' }}
+      value={{ locale, setLocale, t: dictionaries[locale], dir: isRtl(locale) ? 'rtl' : 'ltr' }}
     >
       {children}
     </LanguageContext.Provider>

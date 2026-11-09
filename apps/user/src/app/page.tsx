@@ -1,37 +1,34 @@
-import { TopHeader } from '@/components/TopHeader';
-import { Header } from '@/components/Header';
-import { BannerVideo } from '@/components/BannerVideo';
+import { Hero } from '@/components/Hero';
 import { AboutUs } from '@/components/AboutUs';
+import { PhotoGallery } from '@/components/PhotoGallery';
+import { PostsSection } from '@/components/PostsSection';
 import { Products } from '@/components/Products';
-import { Gallery } from '@/components/Gallery';
+import { Faq } from '@/components/Faq';
 import { Partners } from '@/components/Partners';
-import { ContactUs } from '@/components/ContactUs';
-import { Footer } from '@/components/Footer';
-import { assetUrl, DEFAULTS, getSiteData } from '@/lib/api';
+import { ContactForm } from '@/components/ContactForm';
+import { assetUrl, DEFAULTS, getHomeData } from '@/lib/api';
 
 // Re-read content from the backend at most once a minute.
 export const revalidate = 60;
 
+/** Section order follows version_2_1_0 pages/home/Home.jsx */
 export default async function Home() {
-  const { products, photos, partners, settings } = await getSiteData();
-  const logo = assetUrl(settings['asset.logo'], DEFAULTS.logo);
+  const { banners, mottos, faqs, photos, news, products, vacancies, partners, settings } = await getHomeData();
 
   return (
     <>
-      <TopHeader settings={settings} />
-      <Header logo={logo} />
-      <main className="flex-auto">
-        <BannerVideo poster={assetUrl(settings['asset.hero_poster'], DEFAULTS.heroPoster)} />
-        <AboutUs
-          background={assetUrl(settings['asset.about_bg'], DEFAULTS.aboutBg)}
-          videoUrl={settings.about_video_url || DEFAULTS.aboutVideo}
-        />
-        <Products products={products} />
-        <Gallery photos={photos} />
-        <Partners partners={partners} background={assetUrl(settings['asset.partners_bg'], DEFAULTS.partnersBg)} />
-        <ContactUs image={assetUrl(settings['asset.contact_image'], DEFAULTS.contactImage)} />
-      </main>
-      <Footer settings={settings} logo={logo} />
+      <Hero banners={banners} mottos={mottos} />
+      <AboutUs
+        background={assetUrl(settings['asset.about_bg'], DEFAULTS.aboutBg)}
+        videoUrl={settings.about_video_url || DEFAULTS.aboutVideo}
+      />
+      <PhotoGallery photos={photos} limit={8} />
+      <PostsSection kind="news" posts={news} />
+      <Products products={products} />
+      <PostsSection kind="vacancies" posts={vacancies} />
+      <Faq items={faqs} />
+      <Partners partners={partners} />
+      <ContactForm mapUrl={settings.map_embed_url || DEFAULTS.mapEmbed} />
     </>
   );
 }

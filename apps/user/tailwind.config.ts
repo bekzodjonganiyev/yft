@@ -1,24 +1,20 @@
 import type { Config } from 'tailwindcss';
 
-// Palette taken from the master-branch frontend (app.contex.jsx `colors`).
+// Palette and font from the version_2_1_0 frontend (tailwind.config.cjs).
 const config: Config = {
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
-    container: { center: true, padding: '1rem', screens: { '2xl': '1320px' } },
     extend: {
       colors: {
-        navy: { DEFAULT: '#082A58', dark: '#061F42' },
-        gold: { DEFAULT: '#FFBC13', dark: '#E5A800' },
+        primary: { DEFAULT: '#EEAD0F', dark: '#D69B0B' },
+        secondary: { DEFAULT: '#063F58', dark: '#04304A' },
+        navy: '#0B2A5A',
         flame: '#F06D06',
-        ink: '#252525',
+        mist: '#F0F0F0',
       },
-      keyframes: {
-        pulsate: {
-          '0%': { transform: 'scale(0.6)', opacity: '1' },
-          '100%': { transform: 'scale(1)', opacity: '0' },
-        },
+      fontFamily: {
+        sans: ['var(--font-plex)', 'var(--font-plex-arabic)', 'system-ui', 'sans-serif'],
       },
-      animation: { pulsate: 'pulsate 2s steps(20) infinite' },
     },
   },
   plugins: [],

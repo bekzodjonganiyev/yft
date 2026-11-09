@@ -1,10 +1,14 @@
 import {
-  LayoutDashboard,
-  Package,
+  BriefcaseBusiness,
+  GalleryHorizontal,
+  Handshake,
   Image,
   Inbox,
-  Handshake,
+  LayoutDashboard,
+  Newspaper,
+  Package,
   Settings,
+  Sparkles,
   Wheat,
 } from 'lucide-react'
 import { type SidebarData } from '../types'
@@ -21,6 +25,10 @@ export const sidebarData: SidebarData = {
     {
       title: 'Sayt kontenti',
       items: [
+        { title: 'Bannerlar', url: '/banners', icon: GalleryHorizontal },
+        { title: 'Matn bloklari (motto, FAQ)', url: '/info', icon: Sparkles },
+        { title: 'Yangiliklar', url: '/news', icon: Newspaper },
+        { title: 'Vakansiyalar', url: '/vacancies', icon: BriefcaseBusiness },
         { title: 'Mahsulotlar', url: '/products', icon: Package },
         { title: 'Foto galereya', url: '/photos', icon: Image },
         { title: 'Hamkorlar', url: '/partners', icon: Handshake },

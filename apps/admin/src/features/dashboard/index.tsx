@@ -1,6 +1,14 @@
 import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
-import { Handshake, Image, Inbox, LayoutDashboard, Wheat } from 'lucide-react'
+import {
+  BriefcaseBusiness,
+  Handshake,
+  Image,
+  Inbox,
+  LayoutDashboard,
+  Newspaper,
+  Wheat,
+} from 'lucide-react'
 import { mediaUrl } from '@/lib/api'
 import { INQUIRY_STATUS as STATUS } from '@/lib/labels'
 import type { Stats } from '@/lib/types'
@@ -43,6 +51,18 @@ export function Dashboard() {
           to: '/partners' as const,
         },
         {
+          label: 'Yangiliklar',
+          value: data.newsCount,
+          icon: Newspaper,
+          to: '/news' as const,
+        },
+        {
+          label: 'Vakansiyalar',
+          value: data.vacanciesCount,
+          icon: BriefcaseBusiness,
+          to: '/vacancies' as const,
+        },
+        {
           label: 'Murojaatlar',
           value: data.inquiriesCount,
           icon: Inbox,
@@ -69,7 +89,7 @@ export function Dashboard() {
       >
         {data && (
           <>
-            <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+            <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
               {tiles.map((t) => (
                 <Link
                   key={t.label}

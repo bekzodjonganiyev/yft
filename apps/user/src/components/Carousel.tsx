@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import { ChevronLeftIcon, ChevronRightIcon } from './icons';
 
 /**
  * Small dependency-free replacement for the react-slick sliders used on the master site:
@@ -29,9 +30,24 @@ interface CarouselProps {
   interval?: number;
   label: string;
   dotsClassName?: string;
+  /** Yellow square prev/next buttons (version_2_1_0 products slider) */
+  arrows?: boolean;
+  autoplay?: boolean;
+  prevLabel?: string;
+  nextLabel?: string;
 }
 
-export function Carousel({ slides, perView, interval = 3000, label, dotsClassName = 'bg-navy' }: CarouselProps) {
+export function Carousel({
+  slides,
+  perView,
+  interval = 3000,
+  label,
+  dotsClassName = 'bg-secondary',
+  arrows = false,
+  autoplay = true,
+  prevLabel = 'Previous',
+  nextLabel = 'Next',
+}: CarouselProps) {
   const { dir } = useLanguage();
   const visible = usePerView(perView);
   const pages = Math.max(1, slides.length - visible + 1);
@@ -43,11 +59,11 @@ export function Carousel({ slides, perView, interval = 3000, label, dotsClassNam
   }, [index, pages]);
 
   useEffect(() => {
-    if (paused || pages <= 1) return;
+    if (!autoplay || paused || pages <= 1) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const id = window.setInterval(() => setIndex((i) => (i + 1) % pages), interval);
     return () => window.clearInterval(id);
-  }, [paused, pages, interval]);
+  }, [autoplay, paused, pages, interval]);
 
   const offset = (index * 100) / visible;
 
@@ -61,6 +77,27 @@ export function Carousel({ slides, perView, interval = 3000, label, dotsClassNam
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
+      <div className="relative">
+      {arrows && pages > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={() => setIndex((i) => (i - 1 + pages) % pages)}
+            aria-label={prevLabel}
+            className="absolute start-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-[10px] bg-primary p-1 shadow hover:bg-primary-dark sm:-start-5 rtl:rotate-180"
+          >
+            <ChevronLeftIcon />
+          </button>
+          <button
+            type="button"
+            onClick={() => setIndex((i) => (i + 1) % pages)}
+            aria-label={nextLabel}
+            className="absolute end-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-[10px] bg-primary p-1 shadow hover:bg-primary-dark sm:-end-5 rtl:rotate-180"
+          >
+            <ChevronRightIcon />
+          </button>
+        </>
+      )}
       <div className="overflow-hidden">
         <div
           className="flex transition-transform duration-500 ease-out motion-reduce:transition-none"
@@ -77,6 +114,7 @@ export function Carousel({ slides, perView, interval = 3000, label, dotsClassNam
             </div>
           ))}
         </div>
+      </div>
       </div>
 
       {pages > 1 && (

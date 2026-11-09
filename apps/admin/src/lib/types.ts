@@ -5,11 +5,11 @@ export interface Product {
   titleUz: string
   titleRu: string
   titleEn: string
-  titleAr: string
+  titleFa: string
   descUz: string
   descRu: string
   descEn: string
-  descAr: string
+  descFa: string
   category: string
   packaging: string
   gluten: string | null
@@ -27,7 +27,7 @@ export interface Photo {
   titleUz: string | null
   titleRu: string | null
   titleEn: string | null
-  titleAr: string | null
+  titleFa: string | null
   category: string
   width: number
   height: number
@@ -64,8 +64,56 @@ export interface Stats {
   inquiriesCount: number
   newInquiriesCount: number
   usersCount: number
+  newsCount: number
+  vacanciesCount: number
+  bannersCount: number
   recentInquiries: Inquiry[]
   recentProducts: Product[]
 }
 
 export type Settings = Record<string, string>
+
+export interface Banner {
+  id: string
+  imageUrl: string
+  titleUz: string
+  titleRu: string
+  titleEn: string
+  titleFa: string
+  order: number
+  isActive: boolean
+}
+
+export type PostType = 'NEWS' | 'VACANCY'
+
+export interface Post {
+  id: string
+  type: PostType
+  imageUrl: string
+  titleUz: string
+  titleRu: string
+  titleEn: string
+  titleFa: string
+  bodyUz: string
+  bodyRu: string
+  bodyEn: string
+  bodyFa: string
+  date: string
+  isPublished: boolean
+}
+
+export type InfoKind = 'MOTTO' | 'FAQ'
+
+export interface InfoItem {
+  id: string
+  kind: InfoKind
+  titleUz: string
+  titleRu: string
+  titleEn: string
+  titleFa: string
+  bodyUz: string
+  bodyRu: string
+  bodyEn: string
+  bodyFa: string
+  order: number
+}

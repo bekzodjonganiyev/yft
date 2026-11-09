@@ -1,52 +1,57 @@
-// Copy comes from the master-branch frontend (src/assets/locales/*/translation.json),
-// with the obvious mistakes fixed and the keys the new contact form needs added.
+// Copy comes from the version_2_1_0 frontend (src/assets/locales/*/translation.json).
+// The 4th language there is Persian (shown as "Fa"), not Arabic.
 
-export type Locale = 'uz' | 'ru' | 'en' | 'ar';
+export type Locale = 'uz' | 'ru' | 'en' | 'fa';
 export const LOCALES: { code: Locale; label: string }[] = [
   { code: 'uz', label: 'Uz' },
   { code: 'ru', label: 'Ru' },
   { code: 'en', label: 'En' },
-  { code: 'ar', label: 'Ar' },
+  { code: 'fa', label: 'Fa' },
 ];
+export const isRtl = (locale: Locale) => locale === 'fa';
 
 const uz = {
   brand: { name: 'YANGIYER FLOUR', name2: 'TRADING' },
   nav: {
     about: 'Biz haqimizda',
     products: 'Mahsulotlar',
-    gallery: 'Galereya',
     partners: 'Hamkorlar',
     contact: "Bog'lanish",
     language: 'Til',
     menu: 'Menyu',
+    home: 'Bosh sahifa',
   },
-  top: { call: "Qo'ng'iroq qiling", email: 'Elektron pochta', hours: 'Ish vaqti' },
+  sections: {
+    gallery: 'Fotogaleriya',
+    news: 'Yangiliklar',
+    products: 'Bizning mahsulotlarimiz',
+    vacancies: 'Vakansiyalar',
+    faq: "Tez-tez so'raladigan savollar",
+    partners: 'Hamkorlarimiz',
+    all: 'Barchasi',
+    empty: "Hozircha ma'lumot yo'q.",
+    back: 'Orqaga',
+  },
   about: {
-    text: "“Yangiyer Flour Trading” MChJ mustaqil, oilaviy kompaniya hisoblanadi. 1991 yildan beri faoliyat yuritadi va Markaziy Osiyoning markazida joylashgan. Kompaniya oliy navdan ikkinchi va uchinchi navgacha eng sifatli bug'doy unini ishlab chiqarish hamda raqobatbardosh narxlarda hech kimdan kam bo'lmagan xizmat ko'rsatish uchun qurilgan. Ulgurji savdo va ishlab chiqarish sohasida 30 yildan ortiq tajribaga egamiz. Xodimlarimiz o'z tajriba va bilimlarini mijozlarga mahsulotni har kuni o'z vaqtida yetkazib berish uchun ishlatadilar.",
+    title: 'Biz haqimizda',
+    text: "“Yangiyer Flour Trading” MChJ mustaqil, oilaviy kompaniya hisoblanadi. 1991 yildan beri faoliyat yuritadi. Markaziy Osiyoning markazida joylashgan. “Yangiyer Flour Trading” MChJ birinchi navli undan ikkinchi va uchinchi navgacha eng sifatli bug'doy unini ishlab chiqarish va raqobatbardosh narxlarda hech kimdan kam bo'lmagan xizmat ko'rsatish uchun qurilgan. Ulgurji va ishlab chiqarish bozori sohasida 30 yildan ortiq tajribaga ega. Bizning xodimlarimiz o'zlarining tajriba va bilimlarini mijozlarga har kuni mahsulotni o'z vaqtida yetkazib berish uchun ishlatadilar.",
     watch: "Videoni ko'rish",
     close: 'Yopish',
   },
-  products: { title: 'Yangiyer flour', title2: 'trading brendlari', order: 'Buyurtma berish' },
-  gallery: { title: 'Galereya', prev: 'Oldingi', next: 'Keyingi', close: 'Yopish' },
-  partners: { title: 'Hamkorlar' },
+  gallery: { prev: 'Oldingi', next: 'Keyingi', close: 'Yopish' },
   contact: {
-    title: "Biz bilan bog'laning",
+    title: "Bog'lanish",
     name: 'Ism',
     phone: 'Telefon raqam',
     email: 'Elektron pochta',
     message: 'Xabaringiz',
-    file: 'Fayl biriktirish (ixtiyoriy)',
     send: 'XABAR YUBORISH',
     sending: 'YUBORILMOQDA…',
-    success: "Rahmat! Murojaatingiz qabul qilindi, tez orada siz bilan bog'lanamiz.",
+    success: "Rahmat! Xabaringiz yuborildi, tez orada siz bilan bog'lanamiz.",
     error: "Xabarni yuborib bo'lmadi. Iltimos, qayta urinib ko'ring yoki bizga qo'ng'iroq qiling.",
     again: 'Yana xabar yuborish',
   },
-  footer: {
-    address: 'Manzil: O‘zbekiston Respublikasi, Sirdaryo viloyati, Yangiyer shahri, sanoat rayoni',
-    hours: 'Dush–Jum: 9:00 – 18:00',
-    rights: 'Barcha huquqlar himoyalangan.',
-  },
+  footer: { rights: 'Barcha huquqlar himoyalangan.' },
 };
 
 export type Dictionary = typeof uz;
@@ -56,39 +61,43 @@ const ru: Dictionary = {
   nav: {
     about: 'О нас',
     products: 'Продукты',
-    gallery: 'Галерея',
     partners: 'Партнёры',
     contact: 'Контакты',
     language: 'Язык',
     menu: 'Меню',
+    home: 'Главная',
   },
-  top: { call: 'Позвоните нам', email: 'Почта', hours: 'Время работы' },
+  sections: {
+    gallery: 'Фотогалерея',
+    news: 'Новости',
+    products: 'Наши продукты',
+    vacancies: 'Вакансии',
+    faq: 'Часто задаваемые вопросы',
+    partners: 'Наши партнёры',
+    all: 'Все',
+    empty: 'Пока здесь ничего нет.',
+    back: 'Назад',
+  },
   about: {
-    text: 'ООО «Yangiyer Flour Trading» — независимая семейная компания. Работает с 1991 года и находится в самом сердце Центральной Азии. Предприятие создано для производства пшеничной муки самого высокого качества — от высшего до второго и третьего сорта — и предлагает непревзойдённый сервис по конкурентоспособным ценам. Более 30 лет опыта в оптовой торговле и производстве. Наши сотрудники используют свой опыт и знания, чтобы ежедневно и вовремя доставлять продукцию клиентам.',
+    title: 'О нас',
+    text: 'ООО «Yangiyer Flour Trading» — независимая семейная компания. Работает с 1991 года. Базируется в самом сердце Центральной Азии. Предприятие создано для производства пшеничной муки самого высокого качества — от первого до второго и третьего сорта — и предлагает непревзойдённый сервис по конкурентоспособным ценам. Более 30 лет опыта в оптовой торговле и производстве. Наши сотрудники используют свой опыт и знания, чтобы ежедневно и вовремя доставлять продукцию клиентам.',
     watch: 'Смотреть видео',
     close: 'Закрыть',
   },
-  products: { title: 'Yangiyer flour', title2: 'trading бренды', order: 'Заказать' },
-  gallery: { title: 'Галерея', prev: 'Предыдущее', next: 'Следующее', close: 'Закрыть' },
-  partners: { title: 'Партнёры' },
+  gallery: { prev: 'Предыдущее', next: 'Следующее', close: 'Закрыть' },
   contact: {
-    title: 'Свяжитесь с нами',
+    title: 'Контакты',
     name: 'Имя',
     phone: 'Номер телефона',
     email: 'Электронная почта',
     message: 'Ваше сообщение',
-    file: 'Прикрепить файл (необязательно)',
     send: 'ОТПРАВИТЬ СООБЩЕНИЕ',
     sending: 'ОТПРАВКА…',
-    success: 'Спасибо! Ваше обращение принято, мы скоро свяжемся с вами.',
+    success: 'Спасибо! Сообщение отправлено, мы скоро с вами свяжемся.',
     error: 'Не удалось отправить сообщение. Попробуйте ещё раз или позвоните нам.',
     again: 'Отправить ещё',
   },
-  footer: {
-    address: 'Адрес: Республика Узбекистан, Сырдарьинская область, город Янгиер, промзона',
-    hours: 'Пн–Пт: 9:00 – 18:00',
-    rights: 'Все права защищены.',
-  },
+  footer: { rights: 'Все права защищены.' },
 };
 
 const en: Dictionary = {
@@ -96,86 +105,104 @@ const en: Dictionary = {
   nav: {
     about: 'About us',
     products: 'Products',
-    gallery: 'Gallery',
     partners: 'Partners',
     contact: 'Contact us',
     language: 'Language',
     menu: 'Menu',
+    home: 'Home',
   },
-  top: { call: 'Call us', email: 'Email us', hours: 'Working hours' },
+  sections: {
+    gallery: 'Photo gallery',
+    news: 'News',
+    products: 'Our products',
+    vacancies: 'Vacancies',
+    faq: 'Frequently asked questions',
+    partners: 'Our partners',
+    all: 'All',
+    empty: 'Nothing here yet.',
+    back: 'Back',
+  },
   about: {
-    text: 'LLC Yangiyer Flour Trading is an independent, family-owned company operating since 1991 and based in the heart of Central Asia. The mill was purpose-built to produce the best quality wheat flour — from top grade to second and third grade — and to offer a service second to none at very competitive prices. With over 30 years of experience in the wholesale and production market, our staff use their knowledge to help customers receive their deliveries on time, every day.',
+    title: 'About us',
+    text: 'LLC Yangiyer Flour Trading is an independent, family-owned company operating since 1991 and based in the heart of Central Asia. It was purpose-built to produce the best quality wheat flour — from first grade to second and third grade — and to offer a service second to none at very competitive prices. With over 30 years of experience in the wholesale and production market, our staff use their experience and knowledge to help customers receive their deliveries on time, every day.',
     watch: 'Watch video',
     close: 'Close',
   },
-  products: { title: 'Yangiyer flour', title2: 'trading brands', order: 'Order' },
-  gallery: { title: 'Gallery', prev: 'Previous', next: 'Next', close: 'Close' },
-  partners: { title: 'Partners' },
+  gallery: { prev: 'Previous', next: 'Next', close: 'Close' },
   contact: {
     title: 'Contact us',
     name: 'Name',
     phone: 'Phone number',
     email: 'Email',
     message: 'Your message',
-    file: 'Attach a file (optional)',
     send: 'SEND MESSAGE',
     sending: 'SENDING…',
-    success: 'Thank you! Your message has been received — we will contact you shortly.',
+    success: 'Thank you! Your message has been sent — we will contact you shortly.',
     error: 'Could not send your message. Please try again or give us a call.',
     again: 'Send another message',
   },
-  footer: {
-    address: 'Address: Republic of Uzbekistan, Sirdaryo region, Yangiyer city, industrial area',
-    hours: 'Mon–Fri: 9 am – 6 pm',
-    rights: 'All rights reserved.',
-  },
+  footer: { rights: 'All rights reserved.' },
 };
 
-const ar: Dictionary = {
+const fa: Dictionary = {
   brand: uz.brand,
   nav: {
-    about: 'معلومات عنا',
-    products: 'منتجات',
-    gallery: 'معرض',
-    partners: 'شركاء',
-    contact: 'اتصل بنا',
-    language: 'لغة',
-    menu: 'القائمة',
+    about: 'درباره ما',
+    products: 'محصولات',
+    partners: 'شرکا',
+    contact: 'با ما تماس بگیرید',
+    language: 'زبان',
+    menu: 'منو',
+    home: 'صفحه اصلی',
   },
-  top: { call: 'اتصل بنا', email: 'البريد الإلكتروني', hours: 'ساعات العمل' },
+  sections: {
+    gallery: 'گالری عکس',
+    news: 'اخبار',
+    products: 'محصولات ما',
+    vacancies: 'فرصت‌های شغلی',
+    faq: 'سوالات متداول',
+    partners: 'شرکای ما',
+    all: 'همه',
+    empty: 'هنوز موردی وجود ندارد.',
+    back: 'بازگشت',
+  },
   about: {
-    text: 'شركة يانجيير فلور تريدنج هي شركة عائلية مستقلة تعمل منذ عام 1991 ومقرها في قلب آسيا الوسطى. أُنشئت لإنتاج دقيق قمح عالي الجودة من الدرجة الأولى إلى الدرجتين الثانية والثالثة، وتقديم خدمة لا مثيل لها بأسعار تنافسية. مع أكثر من 30 عامًا من الخبرة في البيع بالجملة والإنتاج، يستخدم موظفونا خبراتهم لمساعدة العملاء على استلام طلباتهم في الوقت المحدد يوميًا.',
-    watch: 'شاهد الفيديو',
-    close: 'إغلاق',
+    title: 'درباره ما',
+    text: 'شرکت Yangiyer Flour Trading یک شرکت مستقل و خانوادگی است که از سال ۱۹۹۱ فعالیت می‌کند و در قلب آسیای مرکزی مستقر است. این شرکت با هدف تولید آرد گندم با بهترین کیفیت، از آرد درجه یک تا درجه دو و سه، و ارائه خدماتی بی‌نظیر با قیمت‌های رقابتی ساخته شده است. با بیش از ۳۰ سال تجربه در بازار عمده‌فروشی و تولید، کارکنان ما از تجربه و دانش خود برای تحویل به‌موقع محصولات به مشتریان در هر روز استفاده می‌کنند.',
+    watch: 'تماشای ویدیو',
+    close: 'بستن',
   },
-  products: { title: 'Yangiyer flour', title2: 'trading علامات', order: 'اطلب الآن' },
-  gallery: { title: 'معرض', prev: 'السابق', next: 'التالي', close: 'إغلاق' },
-  partners: { title: 'شركاء' },
+  gallery: { prev: 'قبلی', next: 'بعدی', close: 'بستن' },
   contact: {
-    title: 'اتصل بنا',
-    name: 'الاسم',
-    phone: 'رقم الهاتف',
-    email: 'البريد الإلكتروني',
-    message: 'رسالتك',
-    file: 'إرفاق ملف (اختياري)',
-    send: 'أرسل رسالة',
-    sending: 'جارٍ الإرسال…',
-    success: 'شكرًا لك! تم استلام رسالتك وسنتواصل معك قريبًا.',
-    error: 'تعذر إرسال الرسالة. يرجى المحاولة مرة أخرى أو الاتصال بنا.',
-    again: 'إرسال رسالة أخرى',
+    title: 'با ما تماس بگیرید',
+    name: 'نام',
+    phone: 'شماره تلفن',
+    email: 'پست الکترونیک',
+    message: 'پیام شما',
+    send: 'پیام فرستادن',
+    sending: 'در حال ارسال…',
+    success: 'سپاس! پیام شما ارسال شد، به‌زودی با شما تماس می‌گیریم.',
+    error: 'ارسال پیام ممکن نشد. لطفاً دوباره تلاش کنید یا با ما تماس بگیرید.',
+    again: 'ارسال پیام دیگر',
   },
-  footer: {
-    address: 'العنوان: جمهورية أوزبكستان، منطقة سيرداريو، مدينة يانجيير، المنطقة الصناعية',
-    hours: 'الاثنين–الجمعة: 9:00 – 18:00',
-    rights: 'جميع الحقوق محفوظة.',
-  },
+  footer: { rights: 'تمامی حقوق محفوظ است.' },
 };
 
-export const dictionaries: Record<Locale, Dictionary> = { uz, ru, en, ar };
+export const dictionaries: Record<Locale, Dictionary> = { uz, ru, en, fa };
 
-/** Pick the localized field from a backend row: pick(row, 'title', 'ru') → row.titleRu */
-export const pickLocalized = (row: Record<string, unknown>, field: string, locale: Locale): string => {
+/** Localized field from a backend row: pickLocalized(row, 'title', 'ru') → row.titleRu (falls back to Uz). */
+export const pickLocalized = (row: object, field: string, locale: Locale): string => {
+  const r = row as Record<string, unknown>;
   const suffix = locale.charAt(0).toUpperCase() + locale.slice(1);
-  const value = row[`${field}${suffix}`] || row[`${field}Uz`];
+  const value = r[`${field}${suffix}`] || r[`${field}Uz`];
   return typeof value === 'string' ? value : '';
+};
+
+export const formatDate = (iso: string, locale: Locale) => {
+  const tag = { uz: 'uz-UZ', ru: 'ru-RU', en: 'en-GB', fa: 'fa-IR' }[locale];
+  try {
+    return new Intl.DateTimeFormat(tag, { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(iso));
+  } catch {
+    return iso.slice(0, 10);
+  }
 };

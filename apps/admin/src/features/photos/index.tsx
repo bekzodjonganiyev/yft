@@ -167,7 +167,7 @@ function PhotoDialog({
     titleUz: photo?.titleUz ?? '',
     titleRu: photo?.titleRu ?? '',
     titleEn: photo?.titleEn ?? '',
-    titleAr: photo?.titleAr ?? '',
+    titleFa: photo?.titleFa ?? '',
   })
   const [category, setCategory] = useState(photo?.category ?? 'production')
   const [file, setFile] = useState<File | null>(null)
@@ -189,7 +189,7 @@ function PhotoDialog({
     ['titleUz', "Sarlavha (o'zbekcha)"],
     ['titleRu', 'Sarlavha (ruscha)'],
     ['titleEn', 'Sarlavha (inglizcha)'],
-    ['titleAr', 'Sarlavha (arabcha)'],
+    ['titleFa', 'Sarlavha (forscha)'],
   ] as const
 
   return (
@@ -231,7 +231,7 @@ function PhotoDialog({
               <Label htmlFor={key}>{label}</Label>
               <Input
                 id={key}
-                dir={key === 'titleAr' ? 'rtl' : undefined}
+                dir={key === 'titleFa' ? 'rtl' : undefined}
                 maxLength={200}
                 value={titles[key]}
                 onChange={(e) =>

@@ -13,6 +13,7 @@ import inquiryRoutes from './routes/inquiries.routes';
 import statsRoutes from './routes/stats.routes';
 import mediaRoutes from './routes/media.routes';
 import settingsRoutes from './routes/settings.routes';
+import { bannerRoutes, infoItemRoutes, postRoutes } from './routes/content.routes';
 
 import { getPhotos, addPhoto, deletePhoto } from './controllers/photos.controller';
 import { login } from './controllers/auth.controller';
@@ -59,6 +60,9 @@ export const createApp = (): Application => {
   app.use('/api/stats', statsRoutes);
   app.use('/api/media', mediaRoutes);
   app.use('/api/settings', settingsRoutes);
+  app.use('/api/banners', bannerRoutes);
+  app.use('/api/posts', postRoutes);
+  app.use('/api/info-items', infoItemRoutes);
 
   // Generic image upload (kept for existing clients) — same as POST /api/media
   app.post('/api/upload', authenticate, imageUpload.single('file'), uploadMedia);

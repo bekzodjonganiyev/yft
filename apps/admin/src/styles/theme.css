@@ -61,8 +61,14 @@
 }
 
 @theme inline {
-  --font-inter: 'Inter', 'sans-serif';
-  --font-manrope: 'Manrope', 'sans-serif';
+  /* Generic family names must NOT be quoted ('sans-serif' in quotes is treated as a font called
+     "sans-serif" and the browser falls back to its default serif font). Vazirmatn covers Persian text. */
+  --font-system:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-inter: 'Inter', 'Vazirmatn', var(--font-system);
+  --font-manrope: 'Manrope', 'Vazirmatn', var(--font-system);
+  --font-sans: var(--font-inter);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

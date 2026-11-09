@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import { Reveal } from './Reveal';
 
 export function AboutUs({ background, videoUrl }: { background: string; videoUrl: string }) {
   const { t } = useLanguage();
@@ -15,20 +16,21 @@ export function AboutUs({ background, videoUrl }: { background: string; videoUrl
   }, [open]);
 
   return (
-    <section id="about" className="my-24">
-      <div className="container">
-        <h2 className="my-4 text-center text-3xl font-bold text-navy sm:text-4xl">
-          {t.brand.name} <span className="text-gold">{t.brand.name2}</span>
-        </h2>
-        <p className="mx-auto mb-8 max-w-5xl text-lg leading-relaxed text-navy sm:text-xl">{t.about.text}</p>
+    <section id="aboutus" className="container mx-auto mb-20 flex w-[90%] justify-between gap-10 max-md:flex-col">
+      <Reveal className="w-1/2 max-md:w-full">
+        <h2 className="mb-10 text-4xl font-bold text-secondary max-md:mb-4 max-md:text-xl">{t.about.title}</h2>
+        <p className="text-2xl text-secondary max-md:text-lg">{t.about.text}</p>
+      </Reveal>
 
-        <div
-          className="flex h-[300px] items-center justify-center rounded-[10px] bg-cover bg-center bg-no-repeat sm:h-[400px]"
-          style={{ backgroundImage: `url("${background}")` }}
-        >
-          <button type="button" onClick={() => setOpen(true)} aria-label={t.about.watch} className="play-btn" />
-        </div>
-      </div>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label={t.about.watch}
+        className="relative flex min-h-96 w-1/2 items-center justify-center overflow-hidden rounded-2xl bg-cover bg-center bg-no-repeat max-md:h-96 max-md:w-full"
+        style={{ backgroundImage: `url("${background}")` }}
+      >
+        <span className="play-btn" />
+      </button>
 
       {open && (
         <div
@@ -38,11 +40,11 @@ export function AboutUs({ background, videoUrl }: { background: string; videoUrl
           aria-modal="true"
           aria-label={t.about.watch}
         >
-          <div className="relative w-full max-w-4xl bg-black" onClick={(e) => e.stopPropagation()}>
+          <div className="relative w-2/3 bg-black max-md:w-full" onClick={(e) => e.stopPropagation()}>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="absolute -top-14 end-0 h-12 w-12 rounded-full bg-red-600 text-xl font-bold text-white sm:-end-14 sm:top-0"
+              className="absolute end-2 top-2 z-10 h-12 w-12 rounded-full bg-red-600 text-xl font-bold text-white"
               aria-label={t.about.close}
               autoFocus
             >

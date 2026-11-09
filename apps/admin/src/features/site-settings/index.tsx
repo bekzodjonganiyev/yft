@@ -35,6 +35,12 @@ const TEXT_FIELDS: {
   { key: 'email', label: 'Email', type: 'email' },
   { key: 'address_uz', label: 'Manzil' },
   { key: 'working_hours', label: 'Ish vaqti' },
+  {
+    key: 'website',
+    label: 'Sayt manzili (footer)',
+    placeholder: 'https://yangiyerflourtrading.uz',
+    type: 'url',
+  },
 ]
 
 const LINK_FIELDS: { key: string; label: string; placeholder: string }[] = [
@@ -55,6 +61,11 @@ const LINK_FIELDS: { key: string; label: string; placeholder: string }[] = [
     placeholder: 'https://youtube.com/…',
   },
   {
+    key: 'social.twitter',
+    label: 'X (Twitter)',
+    placeholder: 'https://x.com/…',
+  },
+  {
     key: 'about_video_url',
     label: '"Biz haqimizda" videosi (YouTube embed)',
     placeholder: 'https://www.youtube.com/embed/…',
@@ -70,27 +81,12 @@ const ASSETS: { key: string; label: string; hint: string }[] = [
   {
     key: 'asset.logo',
     label: 'Logotip',
-    hint: 'Header va footerda. Kvadrat PNG tavsiya etiladi.',
-  },
-  {
-    key: 'asset.hero_poster',
-    label: 'Video banner posteri',
-    hint: 'Video yuklanguncha ko‘rinadi.',
+    hint: 'Navbar va footerda. Kvadrat, shaffof PNG tavsiya etiladi.',
   },
   {
     key: 'asset.about_bg',
-    label: '"Biz haqimizda" fon rasmi',
+    label: '"Biz haqimizda" video rasmi',
     hint: 'Play tugmasi ostidagi rasm.',
-  },
-  {
-    key: 'asset.partners_bg',
-    label: '"Hamkorlar" fon rasmi',
-    hint: 'Keng (landshaft) rasm.',
-  },
-  {
-    key: 'asset.contact_image',
-    label: 'Kontakt bo‘limi rasmi',
-    hint: 'Forma yonidagi rasm.',
   },
 ]
 

@@ -5,32 +5,24 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 96px; /* sticky header */
+    scroll-padding-top: 88px;
   }
   body {
-    @apply bg-white text-navy antialiased;
+    @apply bg-white text-secondary antialiased;
+    min-width: 320px;
     overflow-x: hidden;
+  }
+  [dir='rtl'] body {
+    font-family: var(--font-plex-arabic), var(--font-plex), system-ui, sans-serif;
   }
 }
 
-/* Scrollbar — same flat grey style as the master site */
-* {
-  scrollbar-color: rgb(194, 194, 194) rgb(236, 236, 236);
-}
-*::-webkit-scrollbar {
-  width: 12px;
-  background: rgb(236, 236, 236);
-}
-*::-webkit-scrollbar-thumb {
-  background: rgb(194, 194, 194);
-}
-
-/* Video play button with pulse wave (master: Partners.css .play-btn-inner) */
+/* Video play button with pulse wave (version_2_1_0: AboutUs.css .play-btn) */
 .play-btn {
   position: relative;
   display: block;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.9);
 }
@@ -40,9 +32,9 @@
   left: 50%;
   top: 50%;
   transform: translateX(-40%) translateY(-50%);
-  border-top: 11px solid transparent;
-  border-bottom: 11px solid transparent;
-  border-left: 15px solid #f06d06;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 25px solid #f06d06;
 }
 .play-btn::before {
   content: '';
@@ -65,6 +57,17 @@
   }
 }
 
+/* Simple reveal-on-scroll (replaces react-awesome-reveal) */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -72,5 +75,10 @@
   .play-btn::before {
     animation: none;
     opacity: 0;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

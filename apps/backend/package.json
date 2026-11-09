@@ -11,7 +11,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "tsx prisma/seed.ts",
     "prisma:push": "prisma db push",
-    "assets:import": "tsx scripts/import-master-assets.ts",
+    "assets:import": "tsx scripts/import-legacy-assets.ts",
     "typecheck": "tsc --noEmit -p ."
   },
   "prisma": {

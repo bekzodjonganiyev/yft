@@ -161,14 +161,16 @@ export const storeRemote = async (url: string, opts: Omit<StoreOptions, 'source'
 
 /** Is this URL still used by any content row? */
 export const isReferenced = async (url: string): Promise<boolean> => {
-  const [products, photos, partners, inquiries, settings] = await Promise.all([
+  const [products, photos, partners, inquiries, settings, banners, posts] = await Promise.all([
     prisma.product.count({ where: { imageUrl: url } }),
     prisma.photo.count({ where: { photoUrl: url } }),
     prisma.partner.count({ where: { logoUrl: url } }),
     prisma.inquiry.count({ where: { fileUrl: url } }),
     prisma.setting.count({ where: { value: url } }),
+    prisma.banner.count({ where: { imageUrl: url } }),
+    prisma.post.count({ where: { imageUrl: url } }),
   ]);
-  return products + photos + partners + inquiries + settings > 0;
+  return products + photos + partners + inquiries + settings + banners + posts > 0;
 };
 
 const removeMedia = async (media: Media) => {
@@ -198,7 +200,7 @@ export const deleteMedia = async (id: string, force = false): Promise<void> => {
     throw err;
   }
   if (!force && (await isReferenced(media.url))) {
-    const err = new MediaError('This file is still used by a product, photo, partner, inquiry or setting');
+    const err = new MediaError('This file is still in use (product, photo, partner, banner, post, inquiry or setting)');
     err.statusCode = 409;
     throw err;
   }
