@@ -1,33 +1,69 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-import { Layout } from "./components/layout";
-import { MoreDetails } from "./components/details/Details";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import { Home } from "./pages/Home";
+import { Photos } from "./pages/Photos";
+import { NotFound } from "./pages/NotFound";
 
-import { Home } from "./pages/home/Home";
-import { News } from "./pages/news/News";
-import { NewsDetails } from './pages/news/NewsDetails';
-import { Vacancies } from "./pages/vacancies/Vacancies";
+/** Native window scrolling: go to the #hash target, or to the top on a new page. */
+function ScrollManager() {
+  const { pathname, hash, key } = useLocation();
+  useEffect(() => {
+    if (hash) {
+      document.getElementById(hash.slice(1))?.scrollIntoView();
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash, key]);
+  return null;
+}
 
-import { smallActions } from "./context";
-import { ImageGallary } from "./components/image_gallary/ImageGalary";
+function DocumentTitle() {
+  const { t, i18n } = useTranslation();
+  const { pathname } = useLocation();
+  useEffect(() => {
+    const titles = { "/": t("meta.title"), "/photos": t("meta.photosTitle") };
+    document.title = titles[pathname.replace(/\/+$/, "") || "/"] ?? `${t("notFound.title")} — Yangiyer Flour Trading`;
+  }, [pathname, t, i18n.resolvedLanguage]);
+  return null;
+}
 
-export const App = () => {
+function Layout() {
+  const { t } = useTranslation();
   return (
-    <div
-      className="w-screen h-screen overflow-x-hidden flex flex-col"
-      onScroll={(e) => smallActions.handleScroll(e.currentTarget.scrollTop)}
-    >
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="photos" element={<ImageGallary all={true} />} />
-          <Route path="news" element={<News />} />
-          <Route path="/news/:id" element={<NewsDetails />} />
-          <Route path="vacancies" element={<Vacancies />} />
-          <Route path="details/:key/:id" element={<MoreDetails />} />
-        </Route>
-      </Routes>
-    </div>
+    <>
+      <a
+        href="#main"
+        className="sr-only z-50 rounded-control bg-gold px-4 py-3 font-medium text-ink focus:not-sr-only focus:fixed focus:start-4 focus:top-4"
+      >
+        {t("nav.skip")}
+      </a>
+      <Header />
+      <main id="main" tabIndex={-1} className="outline-none">
+        <Outlet />
+      </main>
+      <Footer />
+      <ScrollManager />
+      <DocumentTitle />
+    </>
   );
-};
+}
+
+export function App() {
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="photos" element={<Photos />} />
+        {/* Sections of the old site that had only placeholder content: send visitors home, not to a 404. */}
+        <Route path="news/*" element={<Navigate to="/" replace />} />
+        <Route path="vacancies" element={<Navigate to="/" replace />} />
+        <Route path="details/*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  );
+}
