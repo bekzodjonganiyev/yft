@@ -2,10 +2,21 @@ import axios, { AxiosError } from 'axios'
 import { useAuthStore } from '@/stores/auth-store'
 
 /** Backend origin, e.g. http://localhost:5000 (the `/api` suffix is optional). */
-const RAW_URL = (
-  import.meta.env.VITE_API_URL || 'http://localhost:5000'
-).replace(/\/+$/, '')
-export const API_ORIGIN = RAW_URL.replace(/\/api$/, '')
+const resolveAdminOrigin = (): string => {
+  const env = import.meta.env.VITE_API_URL
+  if (env && env.trim() && !env.includes('localhost') && !env.includes('127.0.0.1')) {
+    let cleaned = env.trim().replace(/\/+$/, '').replace(/\/api$/, '')
+    if (cleaned.startsWith('http://')) cleaned = cleaned.replace(/^http:\/\//i, 'https://')
+    return cleaned
+  }
+  if (typeof window !== 'undefined' && window.location.hostname.endsWith('smartlist.uz')) {
+    return 'https://yft-api.smartlist.uz'
+  }
+  const raw = (env || 'http://localhost:5000').replace(/\/+$/, '')
+  return raw.replace(/\/api$/, '')
+}
+
+export const API_ORIGIN = resolveAdminOrigin()
 
 export const api = axios.create({ baseURL: `${API_ORIGIN}/api` })
 // No default Content-Type: axios sets JSON or multipart (with boundary) per request.
@@ -34,8 +45,21 @@ api.interceptors.response.use(
 /** Turn a stored path (`/uploads/x.jpg`) into a URL the browser can load. */
 export const mediaUrl = (path?: string | null): string => {
   if (!path) return ''
-  if (/^(https?:|blob:|data:)/i.test(path)) return path
-  return `${API_ORIGIN}${path.startsWith('/') ? '' : '/'}${path}`
+  let url = path.trim()
+  if (!url) return ''
+  if (/^(blob:|data:)/i.test(url)) return url
+  if (/^https?:\/\//i.test(url)) {
+    if (typeof window !== 'undefined' && window.location.hostname.endsWith('smartlist.uz')) {
+      if (url.includes('localhost:5000') || url.includes('127.0.0.1:5000')) {
+        url = url.replace(/^https?:\/\/(localhost|127\.0\.0\.1):5000/i, 'https://yft-api.smartlist.uz')
+      }
+    }
+    if (url.startsWith('http://') && !url.includes('localhost') && !url.includes('127.0.0.1')) {
+      url = url.replace(/^http:\/\//i, 'https://')
+    }
+    return url
+  }
+  return `${API_ORIGIN}${url.startsWith('/') ? '' : '/'}${url}`
 }
 
 /** Human-readable message from an API error (backend sends `{ success:false, message }`). */
@@ -49,6 +73,8 @@ export const errorMessage = (
     const msg = (error.response.data as { message?: unknown } | undefined)
       ?.message
     if (typeof msg === 'string' && msg) return msg
+    if (Array.isArray(msg) && typeof msg[0] === 'string') return msg[0]
+    return error.message || fallback
   }
   if (error instanceof Error && error.message) return error.message
   return fallback
